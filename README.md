@@ -34,8 +34,8 @@ exports.options = {
 // Webdriver.io config overwrites.
 // See the sharpeye.conf.js file in the root of the sharpeye module
 exports.config = {
+
   // Define, which browser you want to use
-  //
   capabilities: [
     {
       browserName: 'firefox'
