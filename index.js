@@ -1,11 +1,13 @@
-var path = require('path')
-var Launcher = require('webdriverio').Launcher;
+#!/usr/bin/env node
+
+const path = require('path')
+const Launcher = require('webdriverio').Launcher
 
 const opts = {
-  configFile: path.resolve(__dirname, 'wdio.conf.js')
+  configFile: path.resolve(__dirname, 'sharpeye.conf.js'),
 }
 
-var wdio = new Launcher(opts.configFile, opts);
+const wdio = new Launcher(opts.configFile, opts)
 wdio.run().then(function (code) {
   process.exit(code);
 }, function (error) {

@@ -8,5 +8,20 @@
     "wdio-screenshot": "^0.6.0",
     "wdio-spec-reporter": "^0.1.0",
     "wdio-visual-regression-service": "^0.8.0"
-  }
+  },
+  "name": "sharpeye",
+  "version": "1.0.0",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "bin": {
+    "sharpeye": "index.js"
+  },
+  "author": "Timo Welde",
+  "license": "ISC",
+  "description": ""
 }

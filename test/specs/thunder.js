@@ -1,28 +1,17 @@
 const assert = require('assert');
 const tasks = require('../../tasks')
+const options = require('../../sharpeye.conf').options
 
 function assertDiff(results) {
   results.forEach((result) => assert.ok(result.isWithinMisMatchTolerance))
 }
 
-/*suite('thunder page', function() {
-    test('should load and make screenshot', function () {
-        browser.url('http://thunder.dd:8083');
-        this.test.taskName = "Whaddup?"
-        global.taskName = "HELLO";
-        const report = browser.checkDocument();
-        assertDiff(report)
-    });
-});*/
+const baseUrl = options.baseUrl
+const user = options.user
+const pass = options.pass
 
-
-
-var baseUrl = /*casper.cli.get('url') || */'http://thunder.dd:8083'
-var user = /*casper.cli.get('user') || */'admin'
-var pass = /*casper.cli.get('pass') || */'1234'
-
-suite('All URLs and clickpaths', function() {
-  setup(function() {
+describe('Task', function() {
+  before(function() {
     browser.url( baseUrl + '/user/login' )
     browser.setValue('form#user-login-form [name="name"]', user)
     browser.setValue('form#user-login-form [name="pass"]', pass)
@@ -30,39 +19,71 @@ suite('All URLs and clickpaths', function() {
     browser.waitForExist('#toolbar-administration')
   })
 
-  test('should look good', function() {
-    let lastTask
-    tasks.forEach(function(task, index, arr) {
-      // Check, if click path, or next page.
-      if (Array.isArray(task)) {
-        // Go through the whole click path.
-        task.forEach(function(selector) {
+  let lastTask, lastTaskForPrep
+  tasks.forEach(function(task, index, arr) {
+    // Check, if click path, or next page.
+    if (typeof task === 'object') {
+        it(task.path + ' -> ' + task.name + ' should look good', function() {
+          browser.url(baseUrl + task.path)
+          // Go through the whole click path.
+          task.clickpath.forEach(function(entry) {
             // Click with waiting
-            if (typeof selector == 'object') {
-              browser.click(selector.selector)
-              browser.waitForVisible(selector.wait)
+            if (typeof entry === 'object') {
+              if (entry.waitBefore !== undefined) {
+                browser.pause(entry.waitBefore)
+              }
+              if (entry.selector !== undefined) {
+                let offset = 0
+                if (entry.offset !== undefined ) {
+                  offset = entry.offset
+                }
+                browser.scroll(entry.selector, null, offset)
+                browser.click(entry.selector)
+              }
+              if (entry.switchToFrame !== undefined) {
+                browser.frame(entry.switchToFrame)
+              }
+
+              if(entry.wait) {
+                browser.waitForVisible(entry.wait)
+              }
             }
             // Click only.
             else {
-              browser.click(selector)
+              browser.click(entry)
             }
+          })
+          // Take a screenshot after click path.
+          setScreenshotPrefix(task.path + '->' + task.name)
+          let report
+          if (task.viewport) {
+            report = browser.checkViewport()
+          }
+          else if (task.element) {
+            report = browser.checkElement(task.element)
+          }
+          else {
+            report = browser.checkDocument()
+          }
+
+          assertDiff(report)
         })
-        // Take a screenshot after click path.
-        setScreenshotPrefix(lastTask + '_click')
-        assertDiff(browser.checkDocument())
-      }
-      else if (task === 'reload') {
-        // casper.reload()
+    }
+    else if (task === 'reload') {
+      it(task + ' should reload', function() {
         browser.refresh()
-      }
-      else {
+      })
+    }
+    else {
+      lastTaskForPrep = task;
+      it(task + ' should look good', function() {
         // Open next page
         browser.url(baseUrl + task)
         setScreenshotPrefix(task)
         assertDiff(browser.checkDocument())
         lastTask = task;
-      }
-    })
+      })
+    }
   })
 })
 

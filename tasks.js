@@ -6,13 +6,12 @@ module.exports = [
   '/node/add',
   '/node/add/article',
   // Meta tags token browser
-  [
+  { name: 'Meta tags token browser', path: '/node/add/article', clickpath: [
     { selector: '#edit-field-meta-tags-0 [role=button]', wait: '#edit-field-meta-tags-0-basic' },
     { selector: '.token-dialog', wait: '.token-tree' }
-  ],
-  'reload',
+  ]},
   // Paragraphs
-  [
+  { name: 'Paragraphs', path: '/node/add/article', clickpath: [
     { selector: '#edit-field-paragraphs-add-more-first-button-area-add-more', wait: '.paragraphs-add-dialog' },
     { selector: '[data-type="text"]', wait: '[data-drupal-selector="edit-field-paragraphs-0-subform"]'},
     { selector: '[name="first_button_add_modal"]', wait: '.paragraphs-add-dialog' },
@@ -29,20 +28,21 @@ module.exports = [
     { selector: '[data-type="image"]', wait: '[data-drupal-selector="edit-field-paragraphs-5-subform"]'},
     { selector: '[name="first_button_add_modal"]', wait: '.paragraphs-add-dialog' },
     { selector: '[data-type="video"]', wait: '[data-drupal-selector="edit-field-paragraphs-6-subform"]'}
-  ],
-  'reload',
+  ]},
   // Modals in paragraphs
-  [
+  { name: 'Modals in paragraphs', path: '/node/add/article', element: '.ui-widget-content', clickpath: [
     { selector: '#edit-field-paragraphs-add-more-first-button-area-add-more', wait: '.paragraphs-add-dialog' },
     { selector: '[data-type="image"]', wait: '[data-drupal-selector="edit-field-paragraphs-0-subform"]'},
-    { selector: '[name="field_paragraphs_0_subform_field_image_entity_browser_entity_browser"]', wait: '#entity_browser_iframe_image_browser'}
-  ],
+    { selector: '[name="field_paragraphs_0_subform_field_image_entity_browser_entity_browser"]', wait: '#entity_browser_iframe_image_browser'},
+    { switchToFrame: 'entity_browser_iframe_image_browser', wait: '#entity-browser-image-browser-form' },
+    { switchToFrame: null }
+  ]},
   '/node/add/page',
   '/media/add',
   '/admin/structure/block',
-  [
-    { selector: '#edit-blocks-region-header-title span', wait: '.block-add-table' }
-  ],
+  { name: 'Place block modal', path: '/admin/structure/block', element: '.ui-widget-content', clickpath: [
+    { selector: 'a#edit-blocks-region-header-title', wait: '.block-add-table', offset: -150}
+  ]},
   '/admin/structure/block/manage/thunder_base_branding',
   '/admin/structure/types/manage/article',
   '/admin/structure/types/manage/article/fields',

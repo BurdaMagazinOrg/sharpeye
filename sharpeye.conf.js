@@ -1,15 +1,37 @@
-var path = require('path');
-var VisualRegressionCompare = require('wdio-visual-regression-service/compare');
+const path = require('path')
+const fs = require('fs')
+const VisualRegressionCompare = require('wdio-visual-regression-service/compare')
+
+let overwrites = {
+    options: {},
+    config: {}
+}
+if (process.cwd() !== __dirname && fs.existsSync(path.join(process.cwd(), 'sharpeye.conf.js'))) {
+    overwrites = require(path.join(process.cwd(), 'sharpeye.conf.js'))
+}
 
 function getScreenshotName(basePath) {
   return function(context) {
-    var browserVersion = parseInt(context.browser.version, 10);
-    var browserName = context.browser.name;
-    var browserWidth = context.meta.viewport.width;
-    var prefix = global.screenshotPrefix;
+    let browserVersion = parseInt(context.browser.version, 10)
+    let browserName = context.browser.name
+    let browserWidth = context.meta.viewport.width
+    let prefix = global.screenshotPrefix
     return path.join(basePath, `${prefix}_${browserName}_v${browserVersion}_${browserWidth}.png`);
   };
 }
+
+exports.options = {
+  // The base URL of the website.
+  baseUrl: 'http://thunder.dd:8083',
+  // Username of admin user.
+  user: 'admin',
+  // Password of admin user.
+  pass: '12345',
+  // Specify directory, in which screenshots should be saved.
+  screenshotDirectory: 'screenshots'
+}
+
+Object.assign(exports.options, overwrites.options)
 
 exports.config = {
 
@@ -26,7 +48,7 @@ exports.config = {
     // directory is where your package.json resides, so `wdio` will be called from there.
     //
     specs: [
-        './test/specs/**/*.js'
+        __dirname + '/test/specs/**/*.js'
     ],
     // Patterns to exclude.
     exclude: [
@@ -60,7 +82,7 @@ exports.config = {
         // 5 instances get started at a time.
         maxInstances: 5,
         //
-        browserName: 'firefox'
+        browserName: 'chrome'
     }],
     //
     // ===================
@@ -123,12 +145,12 @@ exports.config = {
     // Services take over a specific job you don't want to take care of. They enhance
     // your test setup with almost no effort. Unlike plugins, they don't add new
     // commands. Instead, they hook themselves up into the test process.
-    services: ['visual-regression'],//
+    services: ['visual-regression'],
 	  visualRegression: {
 	    compare: new VisualRegressionCompare.LocalCompare({
-        referenceName: getScreenshotName(path.join(process.cwd(), 'screenshots/reference')),
-        screenshotName: getScreenshotName(path.join(process.cwd(), 'screenshots/screen')),
-        diffName: getScreenshotName(path.join(process.cwd(), 'screenshots/diff')),
+        referenceName: getScreenshotName(path.join(process.cwd(), exports.options.screenshotDirectory, 'reference')),
+        screenshotName: getScreenshotName(path.join(process.cwd(), exports.options.screenshotDirectory, 'screen')),
+        diffName: getScreenshotName(path.join(process.cwd(), exports.options.screenshotDirectory, 'diff')),
         misMatchTolerance: 0.01,
   		}),
       viewportChangePause: 300,
@@ -152,7 +174,7 @@ exports.config = {
     // Options to be passed to Mocha.
     // See the full list at http://mochajs.org/
     mochaOpts: {
-        ui: 'tdd',
+        ui: 'bdd',
         timeout: 10000000
     },
     //
@@ -265,3 +287,6 @@ exports.config = {
     // onComplete: function(exitCode) {
     // }
 }
+
+Object.assign(exports.config, overwrites.config)
+
