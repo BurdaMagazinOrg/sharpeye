@@ -1,5 +1,5 @@
 const assert = require('assert');
-const tasks = require('../../tasks')
+const tasks = require('../../sharpeye.tasks')
 const options = require('../../sharpeye.conf').options
 
 function assertDiff(results) {

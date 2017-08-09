@@ -26,7 +26,7 @@ exports.options = {
   // Username of admin user.
   user: 'admin',
   // Password of admin user.
-  pass: '12345',
+  pass: '1234',
   // Specify directory, in which screenshots should be saved.
   screenshotDirectory: 'screenshots'
 }
@@ -36,7 +36,7 @@ Object.assign(exports.options, overwrites.options)
 exports.config = {
 
     // Enable Nodes built-in debugging (only > Node v6.3)
-    // execArgv: ['--inspect'],
+    execArgv: ['--inspect'],
 
     //
     // ==================
