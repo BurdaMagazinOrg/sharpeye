@@ -6,8 +6,8 @@ This tool goes through a list of tasks with URLs or click paths, makes screensho
 
 Configure your project as described in this document
 
-Execute`./node_modules/.bin/sharpeye` once to create reference images.
-If you execute it again, the new screenshots will be compared to the reference.
+Execute`./node_modules/.bin/sharpeye` once to create reference images.  
+If you execute it again, the new screenshots will be compared to the reference.  
 (You can also add `sharpeye` to the scripts section in you `package.json`)
 
 If there is a difference, the diff image will be placed in the screenshot subdirectory `diff`.
