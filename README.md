@@ -2,7 +2,7 @@
 This tool goes through a list of tasks with URLs or click paths, makes screenshots of them and compares them.
 
 ## Usage
-`npm install`
+`npm install burdamagazinorg/sharpeye`
 
 Configure your project as described in this document
 
