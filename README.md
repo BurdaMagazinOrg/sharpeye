@@ -49,6 +49,29 @@ exports.config = {
 ```
 
 sharpeye.tasks.js:
+
+For taking a full-page screenshot of a URL, just specify the path as string. e.g.:
+`/my/path`
+
+To click some elements and take a screenshot afterwards, you can specify an object, with following properties:
+
+- `name`: The name of the clickpath. Will be used for the screenshot filename
+- `path`: The URL path to start from
+- `element`: (optional) The element, from which a screenshot should be taken
+- `viewport`: (optional) Whether the viewport should be captured, instead of the whole page
+- `clickpath`: An array of objects, which specify, where to click and for what t wait for
+
+The clickpath object have following properties:
+- `selector`: The selector, on which should be clicked
+- `wait`: The element, which should be waited for, after clicking
+- `waitBefore`: (optional) time in milliseconds, to be waited, before clicking
+- `offset`: (optional) an offset in y direction, to be scrolled (useful, when elements are hidden behind floating elements)
+
+The clickpath can also contain an object, which switches the context to another frame. This object can have following properties:
+- `switchToFrame`: ID of the (i)frame, to switch to, or `null`, to switch back to the default frame
+- `wait`: After switching, element to wait for, before continuing
+
+
 ```
 module.exports = [
   '/admin/content',
