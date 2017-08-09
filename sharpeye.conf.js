@@ -36,7 +36,7 @@ Object.assign(exports.options, overwrites.options)
 exports.config = {
 
     // Enable Nodes built-in debugging (only > Node v6.3)
-    execArgv: ['--inspect'],
+    // execArgv: ['--inspect'],
 
     //
     // ==================
