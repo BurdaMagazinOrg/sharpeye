@@ -1,6 +1,9 @@
 # SharpEye
 This tool goes through a list of tasks with URLs or click paths, makes screenshots of them and compares them.
 
+## Installation
+You need to install selenium and the browsers you want to test.
+
 ## Usage
 `npm install burdamagazinorg/sharpeye`
 
@@ -36,6 +39,7 @@ exports.options = {
 exports.config = {
 
   // Define, which browser you want to use
+  // See: https://github.com/SeleniumHQ/selenium/wiki/DesiredCapabilities
   capabilities: [
     {
       browserName: 'firefox'
