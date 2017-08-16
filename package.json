@@ -1,13 +1,13 @@
 {
   "dependencies": {
-    "webdriverio": "^4.8.0"
-  },
-  "devDependencies": {
+    "webdriverio": "^4.8.0",
     "wdio-dot-reporter": "0.0.8",
     "wdio-mocha-framework": "^0.5.10",
     "wdio-screenshot": "^0.6.0",
-    "wdio-spec-reporter": "^0.1.0",
     "wdio-visual-regression-service": "^0.8.0"
+  },
+  "devDependencies": {
+    "wdio-spec-reporter": "^0.1.0"
   },
   "name": "sharpeye",
   "version": "1.0.0",
