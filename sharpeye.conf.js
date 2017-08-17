@@ -20,6 +20,7 @@ function getScreenshotName(basePath) {
   };
 }
 
+// Options for sharpeye
 exports.options = {
   // The base URL of the website.
   baseUrl: 'http://thunder.dd:8083',
@@ -27,10 +28,11 @@ exports.options = {
   user: 'admin',
   // Password of admin user.
   pass: '1234',
-  // Specify directory, in which screenshots should be saved.
-  screenshotDirectory: process.cwd() + '/screenshots',
-  referenceDirectory: process.cwd() + '/screenshots',
-  diffDirectory: process.cwd() + '/screenshots'
+  // Specify directories, in which screenshots should be saved.
+  // They will get a postfix of '/screen', '/reference' and '/diff', respectively.
+  screenBaseDirectory: process.cwd() + '/screenshots',
+  referenceBaseDirectory: process.cwd() + '/screenshots',
+  diffBaseDirectory: process.cwd() + '/screenshots'
 }
 
 Object.assign(exports.options, overwrites.options)
@@ -150,9 +152,9 @@ exports.config = {
     services: ['visual-regression'],
 	  visualRegression: {
 	    compare: new VisualRegressionCompare.LocalCompare({
-        referenceName: getScreenshotName(path.join(exports.options.referenceDirectory, 'reference')),
-        screenshotName: getScreenshotName(path.join(exports.options.screenshotDirectory, 'screen')),
-        diffName: getScreenshotName(path.join(exports.options.diffDirectory, 'diff')),
+        referenceName: getScreenshotName(path.join(exports.options.referenceBaseDirectory, 'reference')),
+        screenshotName: getScreenshotName(path.join(exports.options.screenBaseDirectory, 'screen')),
+        diffName: getScreenshotName(path.join(exports.options.diffBaseDirectory, 'diff')),
         misMatchTolerance: 0.01,
   		}),
       viewportChangePause: 300,

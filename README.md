@@ -32,9 +32,9 @@ exports.options = {
   pass: '1234',
   // Specify directories, in which screenshots should be saved.
   // They will get a postfix of '/screen', '/reference' and '/diff', respectively.
-  screenshotDirectory: process.cwd() + '/screenshots',
-  referenceDirectory: process.cwd() + '/screenshots',
-  diffDirectory: process.cwd() + '/screenshots'
+  screenBaseDirectory: process.cwd() + '/screenshots',
+  referenceBaseDirectory: process.cwd() + '/screenshots',
+  diffBaseDirectory: process.cwd() + '/screenshots'
 }
 
 // Webdriver.io config overwrites.
