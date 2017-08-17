@@ -28,7 +28,9 @@ exports.options = {
   // Password of admin user.
   pass: '1234',
   // Specify directory, in which screenshots should be saved.
-  screenshotDirectory: 'screenshots'
+  screenshotDirectory: process.cwd() + '/screenshots',
+  referenceDirectory: process.cwd() + '/screenshots',
+  diffDirectory: process.cwd() + '/screenshots'
 }
 
 Object.assign(exports.options, overwrites.options)
@@ -148,9 +150,9 @@ exports.config = {
     services: ['visual-regression'],
 	  visualRegression: {
 	    compare: new VisualRegressionCompare.LocalCompare({
-        referenceName: getScreenshotName(path.join(process.cwd(), exports.options.screenshotDirectory, 'reference')),
-        screenshotName: getScreenshotName(path.join(process.cwd(), exports.options.screenshotDirectory, 'screen')),
-        diffName: getScreenshotName(path.join(process.cwd(), exports.options.screenshotDirectory, 'diff')),
+        referenceName: getScreenshotName(path.join(exports.options.referenceDirectory, 'reference')),
+        screenshotName: getScreenshotName(path.join(exports.options.screenshotDirectory, 'screen')),
+        diffName: getScreenshotName(path.join(exports.options.diffDirectory, 'diff')),
         misMatchTolerance: 0.01,
   		}),
       viewportChangePause: 300,
