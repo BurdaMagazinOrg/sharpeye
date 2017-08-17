@@ -30,8 +30,11 @@ exports.options = {
   user: 'admin',
   // Password of admin user.
   pass: '1234',
-  // Specify directory, in which screenshots should be saved.
-  screenshotDirectory: 'screenshots'
+  // Specify directories, in which screenshots should be saved.
+  // They will get a postfix of '/screen', '/reference' and '/diff', respectively.
+  screenshotDirectory: process.cwd() + '/screenshots',
+  referenceDirectory: process.cwd() + '/screenshots',
+  diffDirectory: process.cwd() + '/screenshots'
 }
 
 // Webdriver.io config overwrites.
