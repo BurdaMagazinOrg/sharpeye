@@ -12,6 +12,10 @@ const pass = options.pass
 
 describe('Task', function() {
   before(function() {
+    browser.setViewportSize({
+      width: 1280,
+      height: 800
+    });
     browser.url( baseUrl + '/user/login' )
     browser.setValue('form#user-login-form [name="name"]', user)
     browser.setValue('form#user-login-form [name="pass"]', pass)
