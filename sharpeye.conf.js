@@ -158,7 +158,7 @@ exports.config = {
         misMatchTolerance: 0.01,
   		}),
       viewportChangePause: 300,
-      widths: [320, 480, 640, 1024],
+      viewports: [],
       orientations: ['landscape', 'portrait'],
   	},
     // Framework you want to run your specs with.
