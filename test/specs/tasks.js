@@ -58,16 +58,25 @@ describe('Task', function() {
             }
           })
           // Take a screenshot after click path.
+          let options = {}
+
+          if(task.hide) {
+            options.hide = task.hide
+          }
+          if (task.remove) {
+            options.remove = task.remove
+          }
+
           setScreenshotPrefix(task.path + '->' + task.name)
           let report
           if (task.viewport) {
-            report = browser.checkViewport()
+            report = browser.checkViewport(options)
           }
           else if (task.element) {
-            report = browser.checkElement(task.element)
+            report = browser.checkElement(task.element, options)
           }
           else {
-            report = browser.checkDocument()
+            report = browser.checkDocument(options)
           }
 
           assertDiff(report)
