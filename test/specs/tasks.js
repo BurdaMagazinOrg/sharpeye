@@ -29,8 +29,10 @@ describe('Task', function() {
     if (typeof task === 'object') {
         it(task.path + ' -> ' + task.name + ' should look good', function() {
           browser.url(baseUrl + task.path)
+
           // Go through the whole click path.
-          task.clickpath.forEach(function(entry) {
+          let clickpath = task.clickpath ? task.clickpath : []
+          clickpath.forEach(function(entry) {
             // Click with waiting
             if (typeof entry === 'object') {
               if (entry.waitBefore !== undefined) {
