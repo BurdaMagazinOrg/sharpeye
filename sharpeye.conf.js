@@ -32,7 +32,9 @@ exports.options = {
   // They will get a postfix of '/screen', '/reference' and '/diff', respectively.
   screenBaseDirectory: process.cwd() + '/screenshots',
   referenceBaseDirectory: process.cwd() + '/screenshots',
-  diffBaseDirectory: process.cwd() + '/screenshots'
+  diffBaseDirectory: process.cwd() + '/screenshots',
+  // Specify the mismatch tolerance of the comparison.
+  misMatchTolerance: 0.01
 }
 
 Object.assign(exports.options, overwrites.options)
@@ -155,7 +157,7 @@ exports.config = {
         referenceName: getScreenshotName(path.join(exports.options.referenceBaseDirectory, 'reference')),
         screenshotName: getScreenshotName(path.join(exports.options.screenBaseDirectory, 'screen')),
         diffName: getScreenshotName(path.join(exports.options.diffBaseDirectory, 'diff')),
-        misMatchTolerance: 0.01,
+        misMatchTolerance: exports.options.misMatchTolerance,
   		}),
       viewportChangePause: 300,
       viewports: [],
