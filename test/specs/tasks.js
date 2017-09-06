@@ -40,13 +40,14 @@ describe('Task', function() {
               if (entry.waitBefore !== undefined) {
                 browser.pause(entry.waitBefore)
               }
-              if (entry.selector !== undefined) {
+              if (entry.selector !== undefined || entry.$ !== undefined) {
+                let selector = entry.selector || entry.$
                 let offset = 0
                 if (entry.offset !== undefined ) {
                   offset = entry.offset
                 }
-                browser.scroll(entry.selector, null, offset)
-                browser.click(entry.selector)
+                browser.scroll(selector, null, offset)
+                browser.click(selector)
               }
               if (entry.switchToFrame !== undefined) {
                 browser.frame(entry.switchToFrame)
