@@ -25,14 +25,16 @@ describe('Task', function() {
 
   let lastTask, lastTaskForPrep
   tasks.forEach(function(task, index, arr) {
-    // Check, if click path, or next page.
+    // Check, if actions, or next page call.
     if (typeof task === 'object') {
         it(task.path + ' -> ' + task.name + ' should look good', function() {
           browser.url(baseUrl + task.path)
 
-          // Go through the whole click path.
-          let clickpath = task.clickpath ? task.clickpath : []
-          clickpath.forEach(function(entry) {
+          // Go through all actions.
+          // TODO: clickpath is deprecated and will be removed
+          let actions = task.clickpath ? task.clickpath : []
+          actions = task.actions ? task.actions : actions
+          actions.forEach(function(entry) {
             // Click with waiting
             if (typeof entry === 'object') {
               if (entry.waitBefore !== undefined) {
@@ -59,7 +61,8 @@ describe('Task', function() {
               browser.click(entry)
             }
           })
-          // Take a screenshot after click path.
+
+          // Take a screenshot after actions.
           let options = {}
 
           if(task.hide) {
