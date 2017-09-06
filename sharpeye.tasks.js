@@ -64,6 +64,7 @@ else {
     ]},
     { name: 'Performance form', path: '/admin/config/development/performance', actions: [
       '#edit-preprocess-css',
+      { $: '#edit-page-cache-maximum-age option[value="900"]' }
     ]}
   ]
 }

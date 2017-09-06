@@ -70,7 +70,7 @@ To click/fill in some elements and take a screenshot afterwards, you can specify
 - `actions`: An array of objects, which specify, where to click and for what to wait for
 
 The action objects have following properties:
-- `$`: The selector for the DOM element, on which should be clicked, or which should be selected
+- `$`: The selector for the DOM element, on which should be clicked, or which should be selected. Also works for options in select lists.
 - `wait`: (optinal) The element, which should be waited for, after clicking
 - `fill`: (optional) A string, which should be filled into the selected element
 - `waitBefore`: (optional) time in milliseconds, to be waited, before clicking
