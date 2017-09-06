@@ -58,6 +58,12 @@ else {
     '/admin/appearance',
     '/admin/modules',
     '/admin/people',
-    '/admin/config/system/site-information'
+    '/admin/config/system/site-information',
+    { name: 'Form submission', path: '/admin/config/system/site-information', noScreenshot: true, actions: [
+      { $: '#edit-site-name', fill: 'NEW' }
+    ]},
+    { name: 'Performance form', path: '/admin/config/development/performance', actions: [
+      '#edit-preprocess-css',
+    ]}
   ]
 }
