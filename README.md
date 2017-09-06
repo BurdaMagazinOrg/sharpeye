@@ -66,6 +66,7 @@ To click/fill in some elements and take a screenshot afterwards, you can specify
 - `path`: The URL path to start from
 - `element`: (optional) The element, from which a screenshot should be taken
 - `viewport`: (optional) Whether the viewport should be captured, instead of the whole page
+- `noScreenshot`: (optional) Set to true, to prevent taking a screenshot. Might be used e.g. for logins
 - `actions`: An array of objects, which specify, where to click and for what to wait for
 
 The action objects have following properties:
