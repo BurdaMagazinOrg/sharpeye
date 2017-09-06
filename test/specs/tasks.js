@@ -35,63 +35,12 @@ describe('Task', function() {
           let actions = task.clickpath ? task.clickpath : []
           actions = task.actions ? task.actions : actions
           actions.forEach(function(entry) {
-            // Click with waiting
-            if (typeof entry === 'object') {
-              if (entry.waitBefore !== undefined) {
-                browser.pause(entry.waitBefore)
-              }
-              if (entry.selector !== undefined || entry.$ !== undefined) {
-                let selector = entry.selector || entry.$
-                let offset = 0
-                if (entry.offset !== undefined ) {
-                  offset = entry.offset
-                }
-                browser.scroll(selector, null, offset)
-                if (entry.fill !== undefined) {
-                  browser.setValue(selector, entry.fill)
-                }
-                else {
-                  browser.click(selector)
-                }
-              }
-              if (entry.switchToFrame !== undefined) {
-                browser.frame(entry.switchToFrame)
-              }
-
-              if(entry.wait) {
-                browser.waitForVisible(entry.wait)
-              }
-            }
-            // Click only.
-            else {
-              browser.click(entry)
-            }
+            processAction(entry)
           })
 
           // Take a screenshot after actions.
-          let options = {}
-
-          if(task.hide) {
-            options.hide = task.hide
-          }
-          if (task.remove) {
-            options.remove = task.remove
-          }
-
           if (!task.noScreenshot) {
-            setScreenshotPrefix(task.path + '->' + task.name)
-            let report
-            if (task.viewport) {
-              report = browser.checkViewport(options)
-            }
-            else if (task.element) {
-              report = browser.checkElement(task.element, options)
-            }
-            else {
-              report = browser.checkDocument(options)
-            }
-
-            assertDiff(report)
+            takeScreenshot(task)
           }
         })
     }
@@ -112,6 +61,69 @@ describe('Task', function() {
     }
   })
 })
+
+function processAction(action) {
+  // Click with waiting
+  if (typeof action === 'object') {
+    if (action.waitBefore !== undefined) {
+      browser.pause(action.waitBefore)
+    }
+
+    if (action.selector !== undefined || action.$ !== undefined) {
+      let selector = action.selector || action.$
+      let offset = 0
+      if (action.offset !== undefined ) {
+        offset = action.offset
+      }
+      browser.scroll(selector, null, offset)
+      if (action.fill !== undefined) {
+        browser.setValue(selector, action.fill)
+      }
+      else {
+        browser.click(selector)
+      }
+    }
+    
+    if (action.switchToFrame !== undefined) {
+      browser.frame(action.switchToFrame)
+    }
+
+    if(action.wait) {
+      browser.waitForVisible(action.wait)
+    }
+  }
+  // Click only.
+  else {
+    browser.click(action)
+  }
+}
+
+function takeScreenshot(task) {
+  let options = {}
+
+  if(task.hide) {
+    options.hide = task.hide
+  }
+
+  if (task.remove) {
+    options.remove = task.remove
+  }
+
+  setScreenshotPrefix(task.path + '->' + task.name)
+
+  let report
+  if (task.viewport) {
+    report = browser.checkViewport(options)
+  }
+  else if (task.element) {
+    report = browser.checkElement(task.element, options)
+  }
+  else {
+    report = browser.checkDocument(options)
+  }
+
+  assertDiff(report)
+}
 
 function setScreenshotPrefix(name) {
   global.screenshotPrefix = slashToUnderscore(name);
