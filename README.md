@@ -88,6 +88,7 @@ module.exports = [
     path: '/node/add/article',
     [element: 'selector for DOM-element from which the screenshot should be made'],
     [viewport: true // makes screenshot of the viewport, instead of the whole page],
+    [noScreenshot: true // Makes no screenshot at all]
     actions: [
       { $: 'DOM selector', wait: 'DOM selector to wait until visible', [waitBefore: 'optional time in milliseconds, which should pass, before clicking']},
       { $: 'DOM selector', fill: 'My value to be filled into the DOM element' },
