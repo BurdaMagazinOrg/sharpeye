@@ -47,7 +47,12 @@ describe('Task', function() {
                   offset = entry.offset
                 }
                 browser.scroll(selector, null, offset)
-                browser.click(selector)
+                if (entry.fill !== undefined) {
+                  browser.setValue(selector, entry.fill)
+                }
+                else {
+                  browser.click(selector)
+                }
               }
               if (entry.switchToFrame !== undefined) {
                 browser.frame(entry.switchToFrame)
