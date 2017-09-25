@@ -42,6 +42,9 @@ describe('Task', function() {
           if (!task.noScreenshot) {
             takeScreenshot(task)
           }
+          else {
+            this.skip()
+          }
         })
     }
     else if (task === 'reload') {
