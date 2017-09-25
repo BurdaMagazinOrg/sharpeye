@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "commander": "^2.11.0",
     "wdio-dot-reporter": "0.0.8",
     "wdio-mocha-framework": "^0.5.10",
     "wdio-screenshot": "^0.6.0",

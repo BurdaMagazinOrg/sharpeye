@@ -3,6 +3,10 @@
 const path = require('path')
 const Launcher = require('webdriverio').Launcher
 
+// This will give the user information about available options
+require('./cli')
+
+
 const opts = {
   configFile: path.resolve(__dirname, 'sharpeye.conf.js'),
 }

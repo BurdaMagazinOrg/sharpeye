@@ -1,13 +1,18 @@
 const path = require('path')
 const fs = require('fs')
+const program = require('./cli')
 const VisualRegressionCompare = require('wdio-visual-regression-service/compare')
 
 let overwrites = {
     options: {},
     config: {}
 }
-if (process.cwd() !== __dirname && fs.existsSync(path.join(process.cwd(), 'sharpeye.conf.js'))) {
-    overwrites = require(path.join(process.cwd(), 'sharpeye.conf.js'))
+
+if (program.config) {
+  overwrites = require(path.join(process.cwd(), program.config))
+}
+else if (process.cwd() !== __dirname && fs.existsSync(path.join(process.cwd(), 'sharpeye.conf.js'))) {
+  overwrites = require(path.join(process.cwd(), 'sharpeye.conf.js'))
 }
 
 function getScreenshotName(basePath) {
