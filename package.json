@@ -23,6 +23,18 @@
     "sharpeye": "index.js"
   },
   "author": "Timo Welde",
-  "license": "GPLv2",
-  "description": ""
+  "license": "GPL-2.0",
+  "description": "This tool goes through a list of tasks with URLs or click paths, makes screenshots of them and compares them.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BurdaMagazinOrg/sharpeye.git"
+  },
+  "keywords": [
+    "visual",
+    "regression"
+  ],
+  "bugs": {
+    "url": "https://github.com/BurdaMagazinOrg/sharpeye/issues"
+  },
+  "homepage": "https://github.com/BurdaMagazinOrg/sharpeye#readme"
 }
