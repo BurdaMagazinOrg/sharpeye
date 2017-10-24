@@ -27,7 +27,7 @@ describe('Task', function() {
   tasks.forEach(function(task, index, arr) {
     // Check, if actions, or next page call.
     if (typeof task === 'object') {
-        it(task.path + ' -> ' + task.name + ' should look good', function() {
+        it(task.path + ' -> ' + task.name + ': should look good', function() {
           browser.url(baseUrl + task.path)
 
           // Go through all actions.
@@ -48,13 +48,13 @@ describe('Task', function() {
         })
     }
     else if (task === 'reload') {
-      it(task + ' should reload', function() {
+      it(task + ': should reload', function() {
         browser.refresh()
       })
     }
     else {
       lastTaskForPrep = task;
-      it(task + ' should look good', function() {
+      it(task + ': should look good', function() {
         // Open next page
         browser.url(baseUrl + task)
         setScreenshotPrefix(task)
@@ -112,7 +112,7 @@ function takeScreenshot(task) {
     options.remove = task.remove
   }
 
-  setScreenshotPrefix(task.path + '->' + task.name)
+  setScreenshotPrefix(task.path + '--' + task.name)
 
   let report
   if (task.viewport) {
