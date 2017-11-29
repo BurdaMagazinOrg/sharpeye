@@ -19,7 +19,7 @@ describe('Task', function() {
     browser.url( baseUrl + '/user/login' )
     browser.setValue('form#user-login-form [name="name"]', user)
     browser.setValue('form#user-login-form [name="pass"]', pass)
-    browser.submitForm('form#user-login-form')
+    browser.click('form#user-login-form input[name="op"]')
     browser.waitForExist('#toolbar-administration')
   })
 

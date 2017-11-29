@@ -3,7 +3,7 @@ const fs = require('fs')
 const program = require('./cli')
 
 if (program.tasks) {
-  module.exports =  require(path.join(process.cwd(), program.tasks))
+  module.exports =  require(fs.realpathSync(program.tasks))
 }
 else if (process.cwd() !== __dirname && fs.existsSync(path.join(process.cwd(), 'sharpeye.tasks.js'))) {
   module.exports = require(path.join(process.cwd(), 'sharpeye.tasks.js'))
