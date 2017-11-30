@@ -9,10 +9,15 @@ let overwrites = {
 }
 
 if (program.config) {
-  overwrites = require(path.join(process.cwd(), program.config))
+  overwrites = require(fs.realpathSync(program.config))
 }
 else if (process.cwd() !== __dirname && fs.existsSync(path.join(process.cwd(), 'sharpeye.conf.js'))) {
   overwrites = require(path.join(process.cwd(), 'sharpeye.conf.js'))
+}
+
+// Process --single-browser option, that will set execution to use only specified browser
+if (program.singleBrowser) {
+  overwrites.config.capabilities = [{browserName: program.singleBrowser}]
 }
 
 function getScreenshotName(basePath) {
