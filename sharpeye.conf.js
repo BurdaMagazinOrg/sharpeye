@@ -9,10 +9,15 @@ let overwrites = {
 }
 
 if (program.config) {
-  overwrites = require(path.join(process.cwd(), program.config))
+  overwrites = require(fs.realpathSync(program.config))
 }
 else if (process.cwd() !== __dirname && fs.existsSync(path.join(process.cwd(), 'sharpeye.conf.js'))) {
   overwrites = require(path.join(process.cwd(), 'sharpeye.conf.js'))
+}
+
+// Process --single-browser option, that will set execution to use only specified browser
+if (program.singleBrowser) {
+  overwrites.config.capabilities = [{browserName: program.singleBrowser}]
 }
 
 function getScreenshotName(basePath) {
@@ -21,7 +26,7 @@ function getScreenshotName(basePath) {
     let browserName = context.browser.name
     let browserWidth = context.meta.viewport.width
     let prefix = global.screenshotPrefix
-    return path.join(basePath, `${prefix}_${browserName}_v${browserVersion}_${browserWidth}.png`);
+    return path.join(basePath, `${prefix}__${browserName}-v${browserVersion}-${browserWidth}.png`);
   };
 }
 
@@ -59,7 +64,7 @@ exports.config = {
     // directory is where your package.json resides, so `wdio` will be called from there.
     //
     specs: [
-        __dirname + '/test/specs/**/*.js'
+        __dirname + '/specs/**/*.js'
     ],
     // Patterns to exclude.
     exclude: [

@@ -11,7 +11,7 @@
     "wdio-spec-reporter": "^0.1.0"
   },
   "name": "sharpeye",
-  "version": "1.2.0",
+  "version": "2.2.0",
   "main": "index.js",
   "directories": {
     "test": "test"
@@ -23,6 +23,18 @@
     "sharpeye": "index.js"
   },
   "author": "Timo Welde",
-  "license": "ISC",
-  "description": ""
+  "license": "GPL-2.0",
+  "description": "This tool goes through a list of tasks with URLs or click paths, makes screenshots of them and compares them.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BurdaMagazinOrg/sharpeye.git"
+  },
+  "keywords": [
+    "visual",
+    "regression"
+  ],
+  "bugs": {
+    "url": "https://github.com/BurdaMagazinOrg/sharpeye/issues"
+  },
+  "homepage": "https://github.com/BurdaMagazinOrg/sharpeye#readme"
 }

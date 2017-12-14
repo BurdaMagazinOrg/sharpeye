@@ -1,6 +1,6 @@
 const assert = require('assert');
-const tasks = require('../../sharpeye.tasks')
-const options = require('../../sharpeye.conf').options
+const tasks = require('../sharpeye.tasks')
+const options = require('../sharpeye.conf').options
 
 function assertDiff(results) {
   results.forEach((result) => assert.ok(result.isWithinMisMatchTolerance))
@@ -20,7 +20,7 @@ describe('Task', function() {
   tasks.forEach(function(task, index, arr) {
     // Check, if actions, or next page call.
     if (typeof task === 'object') {
-        it(task.path + ' -> ' + task.name + ' should look good', function() {
+        it(task.path + ' -> ' + task.name + ': should look good', function() {
           browser.url(baseUrl + task.path)
 
           // Go through all actions.
@@ -41,13 +41,13 @@ describe('Task', function() {
         })
     }
     else if (task === 'reload') {
-      it(task + ' should reload', function() {
+      it(task + ': should reload', function() {
         browser.refresh()
       })
     }
     else {
       lastTaskForPrep = task;
-      it(task + ' should look good', function() {
+      it(task + ': should look good', function() {
         // Open next page
         browser.url(baseUrl + task)
         setScreenshotPrefix(task)
@@ -84,7 +84,11 @@ function processAction(action) {
       browser.frame(action.switchToFrame)
     }
 
-    if(action.wait) {
+    if (action.dragAndDrop !== undefined){
+      browser.execute(dragAndDrop(), action.dragAndDrop, action.offsetx, action.offsety)
+    }
+
+    if (action.wait) {
       browser.waitForVisible(action.wait)
     }
   }
@@ -105,7 +109,7 @@ function takeScreenshot(task) {
     options.remove = task.remove
   }
 
-  setScreenshotPrefix(task.path + '->' + task.name)
+  setScreenshotPrefix(task.path + '--' + task.name)
 
   let report
   if (task.viewport) {
@@ -130,3 +134,25 @@ function slashToUnderscore(string) {
   string = string.substr(1)
   return string
 }
+
+function dragAndDrop() {
+  return function(elemXpath, offsetX, offsetY) {
+    // Drag element in document with defined offset position.
+    // We have to fake this since browser.moveTo() is not working for
+    // firefox.
+    let fireMouseEvent = function (type, element, x, y) {
+      let event = document.createEvent('MouseEvents')
+      event.initMouseEvent(type, true, (type !== 'mousemove'), window, 0, 0, 0, x, y, false, false, false, false, 0, element)
+      element.dispatchEvent(event)
+    }
+
+    let dragElement = document.evaluate(elemXpath, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue
+    let pos = dragElement.getBoundingClientRect()
+    let centerX = Math.floor((pos.left + pos.right) / 2)
+    let centerY = Math.floor((pos.top + pos.bottom) / 2)
+    fireMouseEvent('mousedown', dragElement, centerX, centerY)
+    fireMouseEvent('mousemove', document, centerX + offsetX, centerY + offsetY)
+    fireMouseEvent('mouseup', dragElement, centerX + offsetX, centerY + offsetY)
+  }
+}
+
