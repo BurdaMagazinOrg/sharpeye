@@ -1,6 +1,7 @@
 const path = require('path')
 const fs = require('fs')
 const program = require('./cli')
+const options = require('./sharpeye.conf').options
 
 if (program.tasks) {
   module.exports =  require(fs.realpathSync(program.tasks))
@@ -10,6 +11,11 @@ else if (process.cwd() !== __dirname && fs.existsSync(path.join(process.cwd(), '
 }
 else {
   module.exports = [
+    { name: 'Login', path: '/user/login', noScreenshot: true, actions: [
+      { $: 'form#user-login-form [name="name"]', fill:  options.user },
+      { $: 'form#user-login-form [name="pass"]', fill: options.pass },
+      { $: '#edit-submit', wait: '#toolbar-administration' }
+    ]},
     '/admin/content',
     '/admin/content/scheduled',
     '/admin/content/files',

@@ -7,8 +7,6 @@ function assertDiff(results) {
 }
 
 const baseUrl = options.baseUrl
-const user = options.user
-const pass = options.pass
 
 describe('Task', function() {
   before(function() {
@@ -16,11 +14,6 @@ describe('Task', function() {
       width: 1280,
       height: 800
     });
-    browser.url( baseUrl + '/user/login' )
-    browser.setValue('form#user-login-form [name="name"]', user)
-    browser.setValue('form#user-login-form [name="pass"]', pass)
-    browser.click('form#user-login-form input[name="op"]')
-    browser.waitForExist('#toolbar-administration')
   })
 
   let lastTask, lastTaskForPrep
