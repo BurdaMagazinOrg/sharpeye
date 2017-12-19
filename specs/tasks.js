@@ -75,6 +75,9 @@ function processAction(action) {
       if (action.fill !== undefined) {
         browser.setValue(selector, action.fill)
       }
+      else if (action.replace) {
+        browser.execute(replace(), selector, action.replace)
+      }
       else {
         browser.click(selector)
       }
@@ -133,6 +136,12 @@ function slashToUnderscore(string) {
   string = string.replace(/\//g, '_')
   string = string.substr(1)
   return string
+}
+
+function replace() {
+  return function(selector, content) {
+    document.querySelector(selector).innerHTML = content
+  }
 }
 
 function dragAndDrop() {

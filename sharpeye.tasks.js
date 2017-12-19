@@ -75,6 +75,9 @@ else {
     { name: 'Performance form', path: '/admin/config/development/performance', actions: [
       '#edit-preprocess-css',
       { $: '#edit-page-cache-maximum-age option[value="900"]' }
+    ]},
+    { name: 'Replace html', path: '/', actions: [
+        { $: '.field--name-field-image', replace: '<br>Placeholder<br>'}
     ]}
   ]
 }
