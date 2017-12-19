@@ -34,10 +34,6 @@ function getScreenshotName(basePath) {
 exports.options = {
   // The base URL of the website.
   baseUrl: 'http://thunder.dd:8083',
-  // Username of admin user.
-  user: 'admin',
-  // Password of admin user.
-  pass: '1234',
   // Specify directories, in which screenshots should be saved.
   // They will get a postfix of '/screen', '/reference' and '/diff', respectively.
   screenBaseDirectory: process.cwd() + '/screenshots',
