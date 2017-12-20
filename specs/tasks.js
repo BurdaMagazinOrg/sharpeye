@@ -76,7 +76,7 @@ function processAction(action) {
         browser.setValue(selector, action.fill)
       }
       else if (action.replace) {
-        browser.execute(replace(), selector, action.replace)
+        browser.execute(replace(), selector, action.replace, isXPath(selector))
       }
       else {
         browser.click(selector)
@@ -139,10 +139,15 @@ function slashToUnderscore(string) {
 }
 
 function replace() {
-  return function(selector, content) {
-    document.querySelector(selector).innerHTML = content
+  return function(selector, content, isXPath) {
+    if (isXPath) {
+      document.evaluate(selector, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.innerHTML = content
+    } else {
+      document.querySelector(selector).innerHTML = content
+    }
   }
 }
+
 
 function dragAndDrop() {
   return function(elemXpath, offsetX, offsetY) {
@@ -163,5 +168,11 @@ function dragAndDrop() {
     fireMouseEvent('mousemove', document, centerX + offsetX, centerY + offsetY)
     fireMouseEvent('mouseup', dragElement, centerX + offsetX, centerY + offsetY)
   }
+}
+
+function isXPath(selector) {
+  // Check if selector is XPath.
+  // @see webdriverio/build/lib/helpers/findElementStrategy.js
+  return (selector.indexOf('/') === 0 || selector.indexOf('(') === 0 || selector.indexOf('../') === 0 || selector.indexOf('./') === 0 || selector.indexOf('*/') === 0)
 }
 
