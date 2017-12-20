@@ -142,7 +142,8 @@ function replace() {
   return function(selector, content, isXPath) {
     if (isXPath) {
       document.evaluate(selector, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.innerHTML = content
-    } else {
+    }
+    else {
       document.querySelector(selector).innerHTML = content
     }
   }
