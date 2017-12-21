@@ -88,7 +88,7 @@ function processAction(action) {
     }
 
     if (action.dragAndDrop !== undefined){
-      browser.execute(dragAndDrop(), action.dragAndDrop, action.offsetx, action.offsety)
+      browser.execute(dragAndDrop(), action.dragAndDrop, action.offsetx, action.offsety, isXPath(action.dragAndDrop))
     }
 
     if (action.wait) {
@@ -151,7 +151,7 @@ function replace() {
 
 
 function dragAndDrop() {
-  return function(elemXpath, offsetX, offsetY) {
+  return function(selector, offsetX, offsetY, isXPath) {
     // Drag element in document with defined offset position.
     // We have to fake this since browser.moveTo() is not working for
     // firefox.
@@ -160,8 +160,14 @@ function dragAndDrop() {
       event.initMouseEvent(type, true, (type !== 'mousemove'), window, 0, 0, 0, x, y, false, false, false, false, 0, element)
       element.dispatchEvent(event)
     }
+    let dragElement
 
-    let dragElement = document.evaluate(elemXpath, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue
+    if (isXPath) {
+      dragElement = document.evaluate(selector, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue
+    }
+    else {
+      dragElement = document.querySelector(selector)
+    }
     let pos = dragElement.getBoundingClientRect()
     let centerX = Math.floor((pos.left + pos.right) / 2)
     let centerY = Math.floor((pos.top + pos.bottom) / 2)
