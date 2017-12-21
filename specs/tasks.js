@@ -82,7 +82,11 @@ function processAction(action) {
         browser.click(selector)
       }
     }
-    
+
+    if (action.moveToObject !== undefined) {
+      browser.moveToObject(action.moveToObject, action.offsetx, action.offsety);
+    }
+
     if (action.switchToFrame !== undefined) {
       browser.frame(action.switchToFrame)
     }
@@ -148,7 +152,6 @@ function replace() {
     }
   }
 }
-
 
 function dragAndDrop() {
   return function(selector, offsetX, offsetY, isXPath) {
