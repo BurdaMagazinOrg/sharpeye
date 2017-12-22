@@ -71,7 +71,11 @@ function processAction(action) {
       if (action.offset !== undefined ) {
         offset = action.offset
       }
-      browser.scroll(selector, null, offset)
+      // Do not scroll on replace action,
+      // selector is not necessarily an element.
+      if (action.replace === undefined) {
+        browser.scroll(selector, null, offset)
+      }
       if (action.fill !== undefined) {
         browser.setValue(selector, action.fill)
       }
@@ -145,7 +149,12 @@ function slashToUnderscore(string) {
 function replace() {
   return function(selector, content, isXPath) {
     if (isXPath) {
-      document.evaluate(selector, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.innerHTML = content
+      let node = document.evaluate(selector, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue
+      if (node.childNodes.length) {
+        node.innerHTML = content
+      } else {
+        node.nodeValue = content
+      }
     }
     else {
       document.querySelector(selector).innerHTML = content
