@@ -71,14 +71,16 @@ function processAction(action) {
       if (action.offset !== undefined ) {
         offset = action.offset
       }
-      browser.scroll(selector, null, offset)
-      if (action.fill !== undefined) {
+
+      if (action.replace !== undefined) {
+        browser.execute(replace(), selector, action.replace, isXPath(selector))
+      }
+      else if (action.fill !== undefined) {
+        browser.scroll(selector, null, offset)
         browser.setValue(selector, action.fill)
       }
-      else if (action.replace) {
-        browser.execute(replace(), selector, action.replace)
-      }
       else {
+        browser.scroll(selector, null, offset)
         browser.click(selector)
       }
     }
@@ -92,7 +94,7 @@ function processAction(action) {
     }
 
     if (action.dragAndDrop !== undefined){
-      browser.execute(dragAndDrop(), action.dragAndDrop, action.offsetx, action.offsety)
+      browser.execute(dragAndDrop(), action.dragAndDrop, action.offsetx, action.offsety, isXPath(action.dragAndDrop))
     }
 
     if (action.wait) {
@@ -143,13 +145,37 @@ function slashToUnderscore(string) {
 }
 
 function replace() {
-  return function(selector, content) {
-    document.querySelector(selector).innerHTML = content
+  return function(selector, content, isXPath) {
+    if (isXPath) {
+      var xPathRes = document.evaluate(selector, document, null, XPathResult.ANY_TYPE, null);
+      var nodes = [];
+      var node = xPathRes.iterateNext()
+
+      while (node) {
+        nodes.push(node)
+        node = xPathRes.iterateNext()
+      }
+      if (nodes.length) {
+        nodes.forEach(function(node) {
+          if (node.childNodes.length) {
+            node.innerHTML = content
+          }
+          else {
+            node.nodeValue = content
+          }
+        })
+      }
+    }
+    else {
+      document.querySelectorAll(selector).forEach(function(elem){
+        elem.innerHTML= content
+      })
+    }
   }
 }
 
 function dragAndDrop() {
-  return function(elemXpath, offsetX, offsetY) {
+  return function(selector, offsetX, offsetY, isXPath) {
     // Drag element in document with defined offset position.
     // We have to fake this since browser.moveTo() is not working for
     // firefox.
@@ -158,8 +184,14 @@ function dragAndDrop() {
       event.initMouseEvent(type, true, (type !== 'mousemove'), window, 0, 0, 0, x, y, false, false, false, false, 0, element)
       element.dispatchEvent(event)
     }
+    let dragElement
 
-    let dragElement = document.evaluate(elemXpath, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue
+    if (isXPath) {
+      dragElement = document.evaluate(selector, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue
+    }
+    else {
+      dragElement = document.querySelector(selector)
+    }
     let pos = dragElement.getBoundingClientRect()
     let centerX = Math.floor((pos.left + pos.right) / 2)
     let centerY = Math.floor((pos.top + pos.bottom) / 2)
@@ -167,5 +199,11 @@ function dragAndDrop() {
     fireMouseEvent('mousemove', document, centerX + offsetX, centerY + offsetY)
     fireMouseEvent('mouseup', dragElement, centerX + offsetX, centerY + offsetY)
   }
+}
+
+function isXPath(selector) {
+  // Check if selector is XPath.
+  // @see webdriverio/build/lib/helpers/findElementStrategy.js
+  return (selector.indexOf('/') === 0 || selector.indexOf('(') === 0 || selector.indexOf('../') === 0 || selector.indexOf('./') === 0 || selector.indexOf('*/') === 0)
 }
 
