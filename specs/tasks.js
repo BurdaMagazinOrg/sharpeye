@@ -71,18 +71,16 @@ function processAction(action) {
       if (action.offset !== undefined ) {
         offset = action.offset
       }
-      // Do not scroll on replace action,
-      // selector is not necessarily an element.
-      if (action.replace === undefined) {
-        browser.scroll(selector, null, offset)
-      }
-      if (action.fill !== undefined) {
-        browser.setValue(selector, action.fill)
-      }
-      else if (action.replace) {
+
+      if (action.replace !== undefined) {
         browser.execute(replace(), selector, action.replace, isXPath(selector))
       }
+      else if (action.fill !== undefined) {
+        browser.scroll(selector, null, offset)
+        browser.setValue(selector, action.fill)
+      }
       else {
+        browser.scroll(selector, null, offset)
         browser.click(selector)
       }
     }
