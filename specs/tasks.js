@@ -147,15 +147,29 @@ function slashToUnderscore(string) {
 function replace() {
   return function(selector, content, isXPath) {
     if (isXPath) {
-      let node = document.evaluate(selector, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue
-      if (node.childNodes.length) {
-        node.innerHTML = content
-      } else {
-        node.nodeValue = content
+      var xPathRes = document.evaluate(selector, document, null, XPathResult.ANY_TYPE, null);
+      var nodes = [];
+      var node = xPathRes.iterateNext()
+
+      while (node) {
+        nodes.push(node)
+        node = xPathRes.iterateNext()
+      }
+      if (nodes.length) {
+        nodes.forEach(function(node) {
+          if (node.childNodes.length) {
+            node.innerHTML = content
+          }
+          else {
+            node.nodeValue = content
+          }
+        })
       }
     }
     else {
-      document.querySelector(selector).innerHTML = content
+      document.querySelectorAll(selector).forEach(function(elem){
+        elem.innerHTML= content
+      })
     }
   }
 }
