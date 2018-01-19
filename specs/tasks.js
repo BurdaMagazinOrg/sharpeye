@@ -107,6 +107,9 @@ function processAction(action) {
   }
 }
 
+/**
+ * @see http://webdriver.io/guide/services/visual-regression.html
+ */
 function takeScreenshot(task) {
   let options = {}
 
@@ -116,6 +119,10 @@ function takeScreenshot(task) {
 
   if (task.remove) {
     options.remove = task.remove
+  }
+
+  if (task.viewports) {
+    options.viewports = task.viewports
   }
 
   setScreenshotPrefix(task.path + '--' + task.name)
