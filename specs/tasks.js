@@ -1,4 +1,4 @@
-const assert = require('assert');
+const assert = require('assert')
 const tasks = require('../sharpeye.tasks')
 const options = require('../sharpeye.conf').options
 
@@ -13,7 +13,7 @@ describe('Task', function() {
     browser.setViewportSize({
       width: 1280,
       height: 800
-    });
+    })
   })
 
   let lastTask, lastTaskForPrep
@@ -46,13 +46,13 @@ describe('Task', function() {
       })
     }
     else {
-      lastTaskForPrep = task;
+      lastTaskForPrep = task
       it(task + ': should look good', function() {
         // Open next page
         browser.url(baseUrl + task)
         setScreenshotPrefix(task)
         assertDiff(browser.checkDocument())
-        lastTask = task;
+        lastTask = task
       })
     }
   })
@@ -86,7 +86,7 @@ function processAction(action) {
     }
 
     if (action.moveToObject !== undefined) {
-      browser.moveToObject(action.moveToObject, action.offsetx, action.offsety);
+      browser.moveToObject(action.moveToObject, action.offsetx, action.offsety)
     }
 
     if (action.switchToFrame !== undefined) {
@@ -142,7 +142,7 @@ function takeScreenshot(task) {
 }
 
 function setScreenshotPrefix(name) {
-  global.screenshotPrefix = slashToUnderscore(name);
+  global.screenshotPrefix = slashToUnderscore(name)
 }
 
 function slashToUnderscore(string) {
@@ -154,8 +154,8 @@ function slashToUnderscore(string) {
 function replace() {
   return function(selector, content, isXPath) {
     if (isXPath) {
-      var xPathRes = document.evaluate(selector, document, null, XPathResult.ANY_TYPE, null);
-      var nodes = [];
+      var xPathRes = document.evaluate(selector, document, null, XPathResult.ANY_TYPE, null)
+      var nodes = []
       var node = xPathRes.iterateNext()
 
       while (node) {
