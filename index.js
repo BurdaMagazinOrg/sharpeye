@@ -18,4 +18,3 @@ wdio.run().then(function (code) {
   console.error('Launcher failed to start the test', error.stacktrace);
   process.exit(1);
 });
-
