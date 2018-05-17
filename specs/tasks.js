@@ -125,7 +125,7 @@ function takeScreenshot(task) {
     options.viewports = task.viewports
   }
 
-  setScreenshotPrefix(task.path + '--' + task.name)
+  setScreenshotPrefix(task.path + '-' + task.name)
 
   let report
   if (task.viewport) {
@@ -142,13 +142,11 @@ function takeScreenshot(task) {
 }
 
 function setScreenshotPrefix(name) {
-  global.screenshotPrefix = slashToUnderscore(name)
+  global.screenshotPrefix = sanitize(name)
 }
 
-function slashToUnderscore(string) {
-  string = string.replace(/\//g, '_')
-  string = string.substr(1)
-  return string
+function sanitize(string) {
+  return string.replace(/[^a-z0-9_\-]/gi, '_').replace(/^_/, '').toLowerCase()
 }
 
 function replace() {
@@ -213,4 +211,3 @@ function isXPath(selector) {
   // @see webdriverio/build/lib/helpers/findElementStrategy.js
   return (selector.indexOf('/') === 0 || selector.indexOf('(') === 0 || selector.indexOf('../') === 0 || selector.indexOf('./') === 0 || selector.indexOf('*/') === 0)
 }
-
