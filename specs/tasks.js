@@ -1,4 +1,4 @@
-const assert = require('assert');
+const assert = require('assert')
 const tasks = require('../sharpeye.tasks')
 const options = require('../sharpeye.conf').options
 
@@ -13,7 +13,7 @@ describe('Task', function() {
     browser.setViewportSize({
       width: 1280,
       height: 800
-    });
+    })
   })
 
   let lastTask, lastTaskForPrep
@@ -46,13 +46,13 @@ describe('Task', function() {
       })
     }
     else {
-      lastTaskForPrep = task;
+      lastTaskForPrep = task
       it(task + ': should look good', function() {
         // Open next page
         browser.url(baseUrl + task)
         setScreenshotPrefix(task)
         assertDiff(browser.checkDocument())
-        lastTask = task;
+        lastTask = task
       })
     }
   })
@@ -86,7 +86,7 @@ function processAction(action) {
     }
 
     if (action.moveToObject !== undefined) {
-      browser.moveToObject(action.moveToObject, action.offsetx, action.offsety);
+      browser.moveToObject(action.moveToObject, action.offsetx, action.offsety)
     }
 
     if (action.switchToFrame !== undefined) {
@@ -125,7 +125,7 @@ function takeScreenshot(task) {
     options.viewports = task.viewports
   }
 
-  setScreenshotPrefix(task.path + '--' + task.name)
+  setScreenshotPrefix(task.path + '-' + task.name)
 
   let report
   if (task.viewport) {
@@ -142,20 +142,18 @@ function takeScreenshot(task) {
 }
 
 function setScreenshotPrefix(name) {
-  global.screenshotPrefix = slashToUnderscore(name);
+  global.screenshotPrefix = sanitize(name)
 }
 
-function slashToUnderscore(string) {
-  string = string.replace(/\//g, '_')
-  string = string.substr(1)
-  return string
+function sanitize(string) {
+  return string.replace(/[^a-z0-9_\-]/gi, '_').replace(/^_/, '').toLowerCase()
 }
 
 function replace() {
   return function(selector, content, isXPath) {
     if (isXPath) {
-      var xPathRes = document.evaluate(selector, document, null, XPathResult.ANY_TYPE, null);
-      var nodes = [];
+      var xPathRes = document.evaluate(selector, document, null, XPathResult.ANY_TYPE, null)
+      var nodes = []
       var node = xPathRes.iterateNext()
 
       while (node) {
@@ -213,4 +211,3 @@ function isXPath(selector) {
   // @see webdriverio/build/lib/helpers/findElementStrategy.js
   return (selector.indexOf('/') === 0 || selector.indexOf('(') === 0 || selector.indexOf('../') === 0 || selector.indexOf('./') === 0 || selector.indexOf('*/') === 0)
 }
-

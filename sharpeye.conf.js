@@ -46,7 +46,7 @@ function getScreenshotName(basePath) {
     let browserName = context.browser.name
     let browserWidth = context.meta.viewport.width
     let prefix = global.screenshotPrefix
-    return path.join(basePath, `${prefix}__${browserName}-v${browserVersion}-${browserWidth}.png`);
+    return path.join(basePath, `${prefix}-${browserName}_v${browserVersion}_${browserWidth}.png`);
   };
 }
 
@@ -321,4 +321,3 @@ exports.config = {
 }
 
 Object.assign(exports.config, overwrites.config)
-
