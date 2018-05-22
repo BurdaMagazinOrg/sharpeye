@@ -15,9 +15,29 @@ else if (process.cwd() !== __dirname && fs.existsSync(path.join(process.cwd(), '
   overwrites = require(path.join(process.cwd(), 'sharpeye.conf.js'))
 }
 
-// Process --single-browser option, that will set execution to use only specified browser
+// Process --single-browser option, that will set execution to use only specified browser.
 if (program.singleBrowser) {
   overwrites.config.capabilities = [{browserName: program.singleBrowser}]
+}
+
+// Process --selenium-port option, that will connect to specified selenium server.
+if (program.seleniumPort) {
+  overwrites.config.port = program.seleniumPort
+}
+
+// Process --base-url option, that will connect to specified url.
+if (program.baseUrl) {
+  overwrites.options.baseUrl = program.baseUrl
+}
+
+// Process --login-user option, that will provide login user
+if (program.loginUser) {
+  overwrites.options.user = program.loginUser
+}
+
+// Process --login-pass option, that will provide login password
+if (program.loginPass) {
+  overwrites.options.pass = program.loginPass
 }
 
 function getScreenshotName(basePath) {
