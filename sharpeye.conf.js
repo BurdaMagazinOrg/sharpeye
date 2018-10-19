@@ -46,7 +46,7 @@ function getScreenshotName(basePath) {
     let browserName = context.browser.name
     let browserWidth = context.meta.viewport.width
     let prefix = global.screenshotPrefix
-    let filename = `${prefix}-${browserName}_${browserWidth}.png`;
+    let filename = `${prefix}-${browserName}_v${browserVersion}_${browserWidth}.png`;
     return path.join(basePath, filename.toLowerCase());
   };
 }
