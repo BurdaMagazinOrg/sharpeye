@@ -90,7 +90,14 @@ function processAction(action) {
     }
 
     if (action.switchToFrame !== undefined) {
-      browser.frame(action.switchToFrame)
+      if (action.switchToFrame === null) {
+        browser.frame(action.switchToFrame)
+      }
+      else {
+        // Using `element` to find an iframe and providing it to `frame` method.
+        browser.waitForExist(action.switchToFrame)
+        browser.frame(browser.element(action.switchToFrame).value)
+      }
     }
 
     if (action.dragAndDrop !== undefined){
