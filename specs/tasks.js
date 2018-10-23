@@ -90,6 +90,7 @@ function processAction(action) {
     }
 
     if (action.switchToFrame !== undefined) {
+      // Value `null` is used to switch back to `main` frame.
       if (action.switchToFrame === null) {
         browser.frame(action.switchToFrame)
       }
