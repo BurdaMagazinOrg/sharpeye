@@ -136,7 +136,7 @@ function takeScreenshot(task) {
   setScreenshotPrefix(task.path + '-' + task.name)
 
   let report
-  if (task.viewport) {
+  if (task.viewports) {
     report = browser.checkViewport(options)
   }
   else if (task.element) {
