@@ -1,10 +1,11 @@
 #!/usr/bin/env node
 
 const path = require('path')
-const Launcher = require('webdriverio').Launcher
+const Launcher = require("@wdio/cli").default
 
 // This will give the user information about available options
-require('./cli')
+// This will give the user information about available options
+require('./cli').default
 
 
 const opts = {

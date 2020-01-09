@@ -2,27 +2,26 @@ const assert = require('assert')
 const tasks = require('../sharpeye.tasks')
 const options = require('../sharpeye.conf').options
 
-function assertDiff(results) {
-  results.forEach((result) => assert.ok(result.isWithinMisMatchTolerance))
+function assertDiff(result) {
+  assert.ok(result <= options.misMatchTolerance, "Screenshot differs from reference by " + result + "%."
+  )
 }
 
 const baseUrl = options.baseUrl
 
 describe('Task', function() {
   before(function() {
-    browser.setViewportSize({
-      width: 1280,
-      height: 800
-    })
+    browser.setWindowSize(1280, 800)
   })
 
   let lastTask, lastTaskForPrep
   tasks.forEach(function(task, index, arr) {
     // Check, if actions, or next page call.
     if (typeof task === 'object') {
-        it(task.path + ' -> ' + task.name + ': should look good', function() {
+        it(task.path + " -> " + task.name + ": should look good", () => {
           browser.url(baseUrl + task.path)
-
+          task.tag = sanitize(task.path + "-" + task.name)
+          task.misMatchTolerance = options.misMatchTolerance
           // Go through all actions.
           // TODO: clickpath is deprecated and will be removed
           let actions = task.clickpath ? task.clickpath : []
@@ -35,23 +34,19 @@ describe('Task', function() {
           if (!task.noScreenshot) {
             takeScreenshot(task)
           }
-          else {
-            this.skip()
-          }
         })
     }
     else if (task === 'reload') {
-      it(task + ': should reload', function() {
+      it(task + ": should reload", () => {
         browser.refresh()
       })
     }
     else {
       lastTaskForPrep = task
-      it(task + ': should look good', function() {
+      it (sanitize(task) + ": should look good", () => {
         // Open next page
         browser.url(baseUrl + task)
-        setScreenshotPrefix(task)
-        assertDiff(browser.checkDocument())
+        assertDiff(browser.checkFullPageScreen(sanitize(task), {}))
         lastTask = task
       })
     }
@@ -65,29 +60,23 @@ function processAction(action) {
       browser.pause(action.waitBefore)
     }
 
+    if (action.fill) {
+      action.fill.forEach(entry => {
+        $(entry.$).setValue(entry.value)
+      })
+    }
+
     if (action.selector !== undefined || action.$ !== undefined) {
-      let selector = action.selector || action.$
-      let offset = 0
-      if (action.offset !== undefined ) {
-        offset = action.offset
-      }
-
-      if (action.replace !== undefined) {
-        browser.execute(replace(), selector, action.replace, isXPath(selector))
-      }
-      else if (action.fill !== undefined) {
-        browser.scroll(selector, null, offset)
-        browser.setValue(selector, action.fill)
-      }
-      else {
-        browser.scroll(selector, null, offset)
-        browser.click(selector)
-      }
+      const selector = action.selector || action.$
+      const element = $(selector)
+      element.waitForDisplayed()
+      element.scrollIntoView({block: 'center'})
+      element.click()
     }
 
-    if (action.moveToObject !== undefined) {
-      browser.moveToObject(action.moveToObject, action.offsetx, action.offsety)
-    }
+    // if (action.moveToObject !== undefined) {
+    //   browser.moveTo(action.moveToObject, action.offsetx, action.offsety)
+    // }
 
     if (action.switchToFrame !== undefined) {
       // Value `null` is used to switch back to `main` frame.
@@ -96,7 +85,7 @@ function processAction(action) {
       }
       else {
         // Using `element` to find an iframe and providing it to `frame` method.
-        browser.waitForExist(action.switchToFrame)
+        $(action.switchToFrame).waitForExist()
         browser.frame(browser.element(action.switchToFrame).value)
       }
     }
@@ -104,14 +93,14 @@ function processAction(action) {
     if (action.dragAndDrop !== undefined){
       browser.execute(dragAndDrop(), action.dragAndDrop, action.offsetx, action.offsety, isXPath(action.dragAndDrop))
     }
-
+    
     if (action.wait) {
-      browser.waitForVisible(action.wait)
+      $(action.wait).waitForDisplayed()
     }
   }
   // Click only.
   else {
-    browser.click(action)
+    element.click(action)
   }
 }
 
@@ -121,36 +110,76 @@ function processAction(action) {
 function takeScreenshot(task) {
   let options = {}
 
-  if(task.hide) {
-    options.hide = task.hide
+
+  if (task.replace) {
+    task.replace.forEach(entry => {
+      browser.execute(replace(), entry.$, entry.value, isXPath(entry.$))
+    })
+  }
+
+  if (task.hide) {
+    options.hideElements = task.hide.map(selector => { 
+      return $(selector)
+    })
   }
 
   if (task.remove) {
-    options.remove = task.remove
+    options.removeElements = task.remove.map(selector => {
+      return $(selector)
+    })
   }
 
   if (task.viewports) {
-    options.viewports = task.viewports
-  }
-
-  setScreenshotPrefix(task.path + '-' + task.name)
-
-  let report
-  if (task.viewports) {
-    report = browser.checkViewport(options)
+    task.viewports.each((viewport) => {
+      browser.setWindowSize(viewport.width, viewport.height)
+      assertDiff(browser.checkFullPageScreen(task.tag, options))
+    })
   }
   else if (task.element) {
-    report = browser.checkElement(task.element, options)
+    assertDiff(browser.checkElement(task.element, task.tag, options))
   }
   else {
-    report = browser.checkDocument(options)
+    // options.hideAfterFirstScroll = [
+    //   "#toolbar-administration",
+    //   ".content-form__actions"
+    // ]
+    //   .map(selector => {
+    //     return $(selector)
+    //   })
+    //   .filter(elem => {
+    //     return !elem.error
+    //   })
+    // browser.execute("return Math.max( document.body.scrollHeight, document.body.offsetHeight, document.documentElement.clientHeight, document.documentElement.scrollHeight, document.documentElement.offsetHeight )")
+
+    // Fix scrolling in checkFullPageScreen()
+    browser.setWindowSize(
+      1280,
+      //        ,---.
+      //     ,.'-.   \
+      //    ( ( ,'"""""-.
+      //    `,X          `.
+      //    /` `           `._
+      //   (            ,   ,_\
+      //   |          ,---.,'o `.
+      //   |         / o   \     )
+      //    \ ,.    (      .____,
+      //     \| \    \____,'     \
+      //   '`'\  \        _,____,'
+      //   \  ,--      ,-'     \
+      //     ( C     ,'         \
+      //      `--'  .'           |
+      //        |   |         .O |
+      //      __|    \        ,-'_
+      //     / `L     `._  _,'  ' `.
+      //    /    `--.._  `',.   _\  `
+      //    `-.       /\  | `. ( ,\  \
+      //   _/  `-._  /  \ |--'  (     \
+      //  '  `-.   `'    \/\`.   `.    )
+      //        \  150px?   \ `.  |    |
+      browser.execute("return document.body.scrollHeight") + 150
+    )
+    assertDiff(browser.checkFullPageScreen(task.tag, options))
   }
-
-  assertDiff(report)
-}
-
-function setScreenshotPrefix(name) {
-  global.screenshotPrefix = sanitize(name)
 }
 
 function sanitize(string) {
@@ -160,7 +189,13 @@ function sanitize(string) {
 function replace() {
   return function(selector, content, isXPath) {
     if (isXPath) {
-      var xPathRes = document.evaluate(selector, document, null, XPathResult.ANY_TYPE, null)
+      var xPathRes = document.evaluate(
+        selector,
+        document,
+        null,
+        XPathResult.ANY_TYPE,
+        null
+      )
       var nodes = []
       var node = xPathRes.iterateNext()
 
@@ -172,16 +207,14 @@ function replace() {
         nodes.forEach(function(node) {
           if (node.childNodes.length) {
             node.innerHTML = content
-          }
-          else {
+          } else {
             node.nodeValue = content
           }
         })
       }
-    }
-    else {
-      document.querySelectorAll(selector).forEach(function(elem){
-        elem.innerHTML= content
+    } else {
+      document.querySelectorAll(selector).forEach(function(elem) {
+        elem.innerHTML = content
       })
     }
   }
