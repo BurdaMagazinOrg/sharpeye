@@ -3,8 +3,8 @@ const fs = require('fs')
 const program = require('./cli')
 
 let overwrites = {
-    options: {},
-    config: {}
+  options: {},
+  config: {}
 }
 
 if (program.config) {
@@ -39,17 +39,6 @@ if (program.loginPass) {
   overwrites.options.pass = program.loginPass
 }
 
-function getScreenshotName(basePath) {
-  return function(context) {
-    let browserVersion = parseInt(context.browser.version, 10)
-    let browserName = context.browser.name
-    let browserWidth = context.meta.viewport.width
-    let prefix = global.screenshotPrefix
-    let filename = `${prefix}-${browserName}_${browserWidth}.png`;
-    return path.join(basePath, filename.toLowerCase());
-  };
-}
-
 // Options for sharpeye
 exports.options = {
   // The base URL of the website.
@@ -73,7 +62,7 @@ exports.config = {
   //
   // WebdriverIO allows it to run your tests in arbitrary locations (e.g. locally or
   // on a remote machine).
-  runner: "local",
+  runner: 'local',
   //
   // ==================
   // Specify Test Files
@@ -83,7 +72,7 @@ exports.config = {
   // NPM script (see https://docs.npmjs.com/cli/run-script) then the current working
   // directory is where your package.json resides, so `wdio` will be called from there.
   //
-  specs: [__dirname + "/specs/**/*.js"],
+  specs: [__dirname + '/specs/**/*.js'],
   // Patterns to exclude.
   exclude: [
     // 'path/to/excluded/files'
@@ -117,7 +106,7 @@ exports.config = {
       // 5 instances get started at a time.
       maxInstances: 5,
       //
-      browserName: "chrome"
+      browserName: 'chrome'
       // If outputDir is provided WebdriverIO can capture driver session logs
       // it is possible to configure which logTypes to include/exclude.
       // excludeDriverLogs: ['*'], // pass '*' to exclude all driver session logs
@@ -131,7 +120,7 @@ exports.config = {
   // Define all options that are relevant for the WebdriverIO instance here
   //
   // Level of logging verbosity: trace | debug | info | warn | error | silent
-  logLevel: "silent",
+  logLevel: 'silent',
   //
   // Set specific log levels per logger
   // loggers:
@@ -155,7 +144,7 @@ exports.config = {
   // with `/`, the base url gets prepended, not including the path portion of your baseUrl.
   // If your `url` parameter starts without a scheme or `/` (like `some/path`), the base url
   // gets prepended directly.
-  baseUrl: "http://localhost",
+  baseUrl: 'http://localhost',
   //
   // Default timeout for all waitFor* commands.
   waitforTimeout: 10000,
@@ -173,13 +162,13 @@ exports.config = {
   // commands. Instead, they hook themselves up into the test process.
   services: [
     [
-      "image-comparison",
+      'image-comparison',
       {
-        baselineFolder: path.join(process.cwd(), "./screenshots2/reference/"),
-        formatImageName: "{tag}-{browserName}_{width}",
+        baselineFolder: path.join(process.cwd(), './screenshots2/reference/'),
+        formatImageName: '{tag}-{browserName}_{width}',
         // formatImageName: "{tag}-{browserName}-{width}x{height}",
-        screenshotPath: path.join(process.cwd(), "./screenshots2/"),
-        actualFolder: path.join(process.cwd(), "./screenshots2/page/"),
+        screenshotPath: path.join(process.cwd(), './screenshots2/'),
+        actualFolder: path.join(process.cwd(), './screenshots2/page/'),
         diffFolder: path.join(process.cwd(), './screenshots2/diff'),
         savePerInstance: false,
         autoSaveBaseline: true,
@@ -194,7 +183,7 @@ exports.config = {
   //
   // Make sure you have the wdio adapter package for the specific framework installed
   // before running any tests.
-  framework: "mocha",
+  framework: 'mocha',
   //
   // The number of times to retry the entire specfile when it fails as a whole
   // specFileRetries: 1,
@@ -202,13 +191,13 @@ exports.config = {
   // Test reporter for stdout.
   // The only one supported by default is 'dot'
   // see also: https://webdriver.io/docs/dot-reporter.html
-  reporters: ["dot"],
+  reporters: ['dot'],
 
   //
   // Options to be passed to Mocha.
   // See the full list at http://mochajs.org/
   mochaOpts: {
-    ui: "bdd",
+    ui: 'bdd',
     timeout: 10000000
   }
   //

@@ -14,8 +14,8 @@ const opts = {
 
 const wdio = new Launcher(opts.configFile, opts)
 wdio.run().then(function (code) {
-  process.exit(code);
+  process.exit(code)
 }, function (error) {
-  console.error('Launcher failed to start the test', error.stacktrace);
-  process.exit(1);
-});
+  console.error('Launcher failed to start the test', error.stacktrace)
+  process.exit(1)
+})

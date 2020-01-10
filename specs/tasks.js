@@ -14,27 +14,26 @@ describe('Task', function() {
     browser.setWindowSize(1280, 800)
   })
 
-  let lastTask, lastTaskForPrep
   tasks.forEach(function(task, index, arr) {
     // Check, if actions, or next page call.
     if (typeof task === 'object') {
-        it(task.path + ' -> ' + task.name + ': should look good', function() {
-          browser.url(baseUrl + task.path)
-          task.tag = sanitize(task.path + '-' + task.name)
-          task.misMatchTolerance = options.misMatchTolerance
-          // Go through all actions.
-          // TODO: clickpath is deprecated and will be removed
-          let actions = task.clickpath ? task.clickpath : []
-          actions = task.actions ? task.actions : actions
-          actions.forEach(function(entry) {
-            processAction(entry)
-          })
-
-          // Take a screenshot after actions.
-          if (!task.noScreenshot) {
-            takeScreenshot(task)
-          }
+      it(task.path + ' -> ' + task.name + ': should look good', function() {
+        browser.url(baseUrl + task.path)
+        task.tag = sanitize(task.path + '-' + task.name)
+        task.misMatchTolerance = options.misMatchTolerance
+        // Go through all actions.
+        // TODO: clickpath is deprecated and will be removed
+        let actions = task.clickpath ? task.clickpath : []
+        actions = task.actions ? task.actions : actions
+        actions.forEach(function(entry) {
+          processAction(entry)
         })
+
+        // Take a screenshot after actions.
+        if (!task.noScreenshot) {
+          takeScreenshot(task)
+        }
+      })
     }
     else if (task === 'reload') {
       it(task + ': should reload', function() {
@@ -42,12 +41,10 @@ describe('Task', function() {
       })
     }
     else {
-      lastTaskForPrep = task
       it (sanitize(task) + ': should look good', function() {
         // Open next page
         browser.url(baseUrl + task)
         assertDiff(browser.checkFullPageScreen(sanitize(task), {}))
-        lastTask = task
       })
     }
   })
@@ -93,7 +90,7 @@ function processAction(action) {
     if (action.dragAndDrop !== undefined){
       browser.execute(dragAndDrop(), action.dragAndDrop, action.offsetx, action.offsety, isXPath(action.dragAndDrop))
     }
-    
+
     if (action.wait) {
       $(action.wait).waitForDisplayed()
     }
