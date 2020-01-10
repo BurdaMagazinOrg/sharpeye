@@ -3,7 +3,7 @@ const tasks = require('../sharpeye.tasks')
 const options = require('../sharpeye.conf').options
 
 function assertDiff(result) {
-  assert.ok(result <= options.misMatchTolerance, "Screenshot differs from reference by " + result + "%."
+  assert.ok(result <= options.misMatchTolerance, 'Screenshot differs from reference by ' + result + '%.'
   )
 }
 
@@ -18,9 +18,9 @@ describe('Task', function() {
   tasks.forEach(function(task, index, arr) {
     // Check, if actions, or next page call.
     if (typeof task === 'object') {
-        it(task.path + " -> " + task.name + ": should look good", () => {
+        it(task.path + ' -> ' + task.name + ': should look good', function() {
           browser.url(baseUrl + task.path)
-          task.tag = sanitize(task.path + "-" + task.name)
+          task.tag = sanitize(task.path + '-' + task.name)
           task.misMatchTolerance = options.misMatchTolerance
           // Go through all actions.
           // TODO: clickpath is deprecated and will be removed
@@ -37,13 +37,13 @@ describe('Task', function() {
         })
     }
     else if (task === 'reload') {
-      it(task + ": should reload", () => {
+      it(task + ': should reload', function() {
         browser.refresh()
       })
     }
     else {
       lastTaskForPrep = task
-      it (sanitize(task) + ": should look good", () => {
+      it (sanitize(task) + ': should look good', function() {
         // Open next page
         browser.url(baseUrl + task)
         assertDiff(browser.checkFullPageScreen(sanitize(task), {}))
@@ -61,7 +61,7 @@ function processAction(action) {
     }
 
     if (action.fill) {
-      action.fill.forEach(entry => {
+      action.fill.forEach(function(entry) {
         $(entry.$).setValue(entry.value)
       })
     }
@@ -112,25 +112,25 @@ function takeScreenshot(task) {
 
 
   if (task.replace) {
-    task.replace.forEach(entry => {
+    task.replace.forEach(function(entry) {
       browser.execute(replace(), entry.$, entry.value, isXPath(entry.$))
     })
   }
 
   if (task.hide) {
-    options.hideElements = task.hide.map(selector => { 
+    options.hideElements = task.hide.map(function(selector) { 
       return $(selector)
     })
   }
 
   if (task.remove) {
-    options.removeElements = task.remove.map(selector => {
+    options.removeElements = task.remove.map(function(selector) {
       return $(selector)
     })
   }
 
   if (task.viewports) {
-    task.viewports.each((viewport) => {
+    task.viewports.each(function(viewport) {
       browser.setWindowSize(viewport.width, viewport.height)
       assertDiff(browser.checkFullPageScreen(task.tag, options))
     })
@@ -140,16 +140,16 @@ function takeScreenshot(task) {
   }
   else {
     // options.hideAfterFirstScroll = [
-    //   "#toolbar-administration",
-    //   ".content-form__actions"
+    //   '#toolbar-administration',
+    //   '.content-form__actions'
     // ]
-    //   .map(selector => {
+    //   .map(function(selector) {
     //     return $(selector)
     //   })
-    //   .filter(elem => {
+    //   .filter(function(elem) {
     //     return !elem.error
     //   })
-    // browser.execute("return Math.max( document.body.scrollHeight, document.body.offsetHeight, document.documentElement.clientHeight, document.documentElement.scrollHeight, document.documentElement.offsetHeight )")
+    // browser.execute('return Math.max( document.body.scrollHeight, document.body.offsetHeight, document.documentElement.clientHeight, document.documentElement.scrollHeight, document.documentElement.offsetHeight )')
 
     // Fix scrolling in checkFullPageScreen()
     browser.setWindowSize(
@@ -176,7 +176,7 @@ function takeScreenshot(task) {
       //   _/  `-._  /  \ |--'  (     \
       //  '  `-.   `'    \/\`.   `.    )
       //        \  150px?   \ `.  |    |
-      browser.execute("return document.body.scrollHeight") + 150
+      browser.execute('return document.body.scrollHeight') + 150
     )
     assertDiff(browser.checkFullPageScreen(task.tag, options))
   }
