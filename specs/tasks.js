@@ -59,7 +59,9 @@ function processAction(action) {
 
     if (action.fill) {
       action.fill.forEach(function(entry) {
-        $(entry.$).setValue(entry.value)
+        const element = $(entry.$)
+        element.waitForDisplayed()
+        element.setValue(entry.value)
       })
     }
 
@@ -78,12 +80,12 @@ function processAction(action) {
     if (action.switchToFrame !== undefined) {
       // Value `null` is used to switch back to `main` frame.
       if (action.switchToFrame === null) {
-        browser.frame(action.switchToFrame)
+        browser.switchToFrame(action.switchToFrame)
       }
       else {
         // Using `element` to find an iframe and providing it to `frame` method.
         $(action.switchToFrame).waitForExist()
-        browser.frame(browser.element(action.switchToFrame).value)
+        browser.switchToFrame($(action.switchToFrame))
       }
     }
 
@@ -127,28 +129,17 @@ function takeScreenshot(task) {
   }
 
   if (task.viewports) {
-    task.viewports.each(function(viewport) {
+    task.viewports.forEach(function(viewport) {
       browser.setWindowSize(viewport.width, viewport.height)
       assertDiff(browser.checkFullPageScreen(task.tag, options))
     })
   }
   else if (task.element) {
-    assertDiff(browser.checkElement(task.element, task.tag, options))
+    
+    assertDiff(browser.checkElement($(task.element), task.tag, options))
   }
   else {
-    // options.hideAfterFirstScroll = [
-    //   '#toolbar-administration',
-    //   '.content-form__actions'
-    // ]
-    //   .map(function(selector) {
-    //     return $(selector)
-    //   })
-    //   .filter(function(elem) {
-    //     return !elem.error
-    //   })
-    // browser.execute('return Math.max( document.body.scrollHeight, document.body.offsetHeight, document.documentElement.clientHeight, document.documentElement.scrollHeight, document.documentElement.offsetHeight )')
-
-    // Fix scrolling in checkFullPageScreen()
+    // Fix scrolling in checkFullPageScreen().
     browser.setWindowSize(
       1280,
       //        ,---.

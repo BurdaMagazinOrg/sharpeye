@@ -164,12 +164,12 @@ exports.config = {
     [
       'image-comparison',
       {
-        baselineFolder: path.join(process.cwd(), './screenshots2/reference/'),
+        baselineFolder: path.join(process.cwd(), './screenshots/reference/'),
         formatImageName: '{tag}-{browserName}_{width}',
         // formatImageName: "{tag}-{browserName}-{width}x{height}",
-        screenshotPath: path.join(process.cwd(), './screenshots2/'),
-        actualFolder: path.join(process.cwd(), './screenshots2/page/'),
-        diffFolder: path.join(process.cwd(), './screenshots2/diff'),
+        screenshotPath: path.join(process.cwd(), './screenshots/'),
+        actualFolder: path.join(process.cwd(), './screenshots/page/'),
+        diffFolder: path.join(process.cwd(), './screenshots/diff'),
         savePerInstance: false,
         autoSaveBaseline: true,
         blockOutStatusBar: true,
