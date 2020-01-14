@@ -45,7 +45,7 @@ exports.options = {
   baseUrl: 'http://thunder.test',
   // Specify directories, in which screenshots should be saved.
   screenshotPath: process.cwd() + '/screenshots',
-  screenshotPath: process.cwd() + '/screenshots/reference',
+  baselineFolder: process.cwd() + '/screenshots/reference',
   // Specify the mismatch tolerance of the comparison.
   misMatchTolerance: 0.01
 }
