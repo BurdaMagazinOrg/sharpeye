@@ -118,13 +118,13 @@ function takeScreenshot(task) {
 
   if (task.hide) {
     options.hideElements = task.hide.map(function(selector) { 
-      return $(selector)
+      return $$(selector)
     })
   }
 
   if (task.remove) {
     options.removeElements = task.remove.map(function(selector) {
-      return $(selector)
+      return $$(selector)
     })
   }
 
