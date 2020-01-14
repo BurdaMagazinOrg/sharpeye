@@ -42,10 +42,10 @@ if (program.loginPass) {
 // Options for sharpeye
 exports.options = {
   // The base URL of the website.
-  baseUrl: "http://thunder.dd:8083",
+  baseUrl: 'http://thunder.test',
   // Specify directories, in which screenshots should be saved.
-  screenshotPath: process.cwd() + "/screenshots",
-  screenshotPath: process.cwd() + "/screenshots/reference",
+  screenshotPath: process.cwd() + '/screenshots',
+  screenshotPath: process.cwd() + '/screenshots/reference',
   // Specify the mismatch tolerance of the comparison.
   misMatchTolerance: 0.01
 }
