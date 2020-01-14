@@ -42,12 +42,10 @@ if (program.loginPass) {
 // Options for sharpeye
 exports.options = {
   // The base URL of the website.
-  baseUrl: 'http://thunder.dd:8083',
+  baseUrl: "http://thunder.dd:8083",
   // Specify directories, in which screenshots should be saved.
-  // They will get a postfix of '/screen', '/reference' and '/diff', respectively.
-  screenBaseDirectory: process.cwd() + '/screenshots',
-  referenceBaseDirectory: process.cwd() + '/screenshots',
-  diffBaseDirectory: process.cwd() + '/screenshots',
+  screenshotPath: process.cwd() + "/screenshots",
+  screenshotPath: process.cwd() + "/screenshots/reference",
   // Specify the mismatch tolerance of the comparison.
   misMatchTolerance: 0.01
 }
@@ -164,12 +162,10 @@ exports.config = {
     [
       'image-comparison',
       {
-        baselineFolder: path.join(process.cwd(), './screenshots/reference/'),
+        baselineFolder: exports.options.baselineFolder,
         formatImageName: '{tag}-{browserName}_{width}',
         // formatImageName: "{tag}-{browserName}-{width}x{height}",
-        screenshotPath: path.join(process.cwd(), './screenshots/'),
-        actualFolder: path.join(process.cwd(), './screenshots/page/'),
-        diffFolder: path.join(process.cwd(), './screenshots/diff'),
+        screenshotPath: exports.options.screenshotPath,
         savePerInstance: false,
         autoSaveBaseline: true,
         blockOutStatusBar: true,
