@@ -150,7 +150,7 @@ function takeScreenshot(task) {
 // This fixes issues with static and fixed elements by 
 // disable the scrolling of checkFullPageScreen(). 
 function alignHeight() {
-   let currentViewport = browser.execute(function() {
+  let currentViewport = browser.execute(function() {
     return {
       width: Math.max(
         document.documentElement.clientWidth,
