@@ -10,7 +10,7 @@ function assertDiff(result) {
 const baseUrl = options.baseUrl
 
 describe('Task', function() {
-  before(function() {
+  beforeEach(function() {
     browser.setWindowSize(1280, 800)
   })
 
