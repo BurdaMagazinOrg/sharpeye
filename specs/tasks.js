@@ -44,6 +44,7 @@ describe('Task', function() {
       it (sanitize(task) + ': should look good', function() {
         // Open next page
         browser.url(baseUrl + task)
+        alignHeight()
         assertDiff(browser.checkFullPageScreen(sanitize(task), {}))
       })
     }
@@ -139,35 +140,62 @@ function takeScreenshot(task) {
     assertDiff(browser.checkElement($(task.element), task.tag, options))
   }
   else {
-    // Fix scrolling in checkFullPageScreen().
-    browser.setWindowSize(
-      1280,
-      //        ,---.
-      //     ,.'-.   \
-      //    ( ( ,'"""""-.
-      //    `,X          `.
-      //    /` `           `._
-      //   (            ,   ,_\
-      //   |          ,---.,'o `.
-      //   |         / o   \     )
-      //    \ ,.    (      .____,
-      //     \| \    \____,'     \
-      //   '`'\  \        _,____,'
-      //   \  ,--      ,-'     \
-      //     ( C     ,'         \
-      //      `--'  .'           |
-      //        |   |         .O |
-      //      __|    \        ,-'_
-      //     / `L     `._  _,'  ' `.
-      //    /    `--.._  `',.   _\  `
-      //    `-.       /\  | `. ( ,\  \
-      //   _/  `-._  /  \ |--'  (     \
-      //  '  `-.   `'    \/\`.   `.    )
-      //        \  111px?   \ `.  |    |
-      browser.execute('return document.body.scrollHeight') + 111
-    )
+    alignHeight()
     assertDiff(browser.checkFullPageScreen(task.tag, options))
   }
+}
+
+function alignHeight() {
+   let currentViewport = browser.execute(function() {
+    return {
+      width: Math.max(
+        document.documentElement.clientWidth,
+        window.innerWidth || 0
+      ),
+      height: Math.max(
+        document.documentElement.clientHeight,
+        window.innerHeight || 0
+      )
+    }
+  })
+  //        ,---.
+  //     ,.'-.   \
+  //    ( ( ,'"""""-.
+  //    `,X          `.
+  //    /` `           `._
+  //   (            ,   ,_\
+  //   |          ,---.,'o `.
+  //   |         / o   \     )
+  //    \ ,.    (      .____,
+  //     \| \    \____,'     \
+  //   '`'\  \        _,____,'
+  //   \  ,--      ,-'     \
+  //     ( C     ,'         \
+  //      `--'  .'           |
+  //        |   |         .O |
+  //      __|    \        ,-'_
+  //     / `L     `._  _,'  ' `.
+  //    /    `--.._  `',.   _\  `
+  //    `-.       /\  | `. ( ,\  \
+  //   _/  `-._  /  \ |--'  (     \
+  //  '  `-.   `'    \/\`.   `.    )
+  //        \           \ `.  |    |
+  let desiredViewport = {
+    width: 1280,
+    height: Math.max(
+      browser.execute(function() { return document.documentElement.scrollHeight }),
+      800
+    )
+  }
+  let windowSize = browser.getWindowSize()
+
+  // Fix scrolling in checkFullPageScreen().
+  browser.setWindowSize(
+    windowSize.width +
+      (desiredViewport.width - currentViewport.width),
+    windowSize.height +
+      (desiredViewport.height - currentViewport.height)
+  )
 }
 
 function sanitize(string) {

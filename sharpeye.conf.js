@@ -163,7 +163,8 @@ exports.config = {
       'image-comparison',
       {
         baselineFolder: exports.options.baselineFolder,
-        formatImageName: '{tag}-{browserName}_{width}',
+        // @todo: remove fake height for diffing old version screenshots.
+        formatImageName: '{tag}-{browserName}_1280',
         // formatImageName: "{tag}-{browserName}-{width}x{height}",
         screenshotPath: exports.options.screenshotPath,
         savePerInstance: false,
