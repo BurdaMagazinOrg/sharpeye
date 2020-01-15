@@ -145,6 +145,10 @@ function takeScreenshot(task) {
   }
 }
 
+// Calculate and set window size to desired (calculated)
+// viewport height.
+// This fixes issues with static and fixed elements by 
+// disable the scrolling of checkFullPageScreen(). 
 function alignHeight() {
    let currentViewport = browser.execute(function() {
     return {
@@ -158,28 +162,6 @@ function alignHeight() {
       )
     }
   })
-  //        ,---.
-  //     ,.'-.   \
-  //    ( ( ,'"""""-.
-  //    `,X          `.
-  //    /` `           `._
-  //   (            ,   ,_\
-  //   |          ,---.,'o `.
-  //   |         / o   \     )
-  //    \ ,.    (      .____,
-  //     \| \    \____,'     \
-  //   '`'\  \        _,____,'
-  //   \  ,--      ,-'     \
-  //     ( C     ,'         \
-  //      `--'  .'           |
-  //        |   |         .O |
-  //      __|    \        ,-'_
-  //     / `L     `._  _,'  ' `.
-  //    /    `--.._  `',.   _\  `
-  //    `-.       /\  | `. ( ,\  \
-  //   _/  `-._  /  \ |--'  (     \
-  //  '  `-.   `'    \/\`.   `.    )
-  //        \           \ `.  |    |
   let desiredViewport = {
     width: 1280,
     height: Math.max(
@@ -189,7 +171,6 @@ function alignHeight() {
   }
   let windowSize = browser.getWindowSize()
 
-  // Fix scrolling in checkFullPageScreen().
   browser.setWindowSize(
     windowSize.width +
       (desiredViewport.width - currentViewport.width),
