@@ -163,8 +163,8 @@ function takeScreenshot(task) {
       //    `-.       /\  | `. ( ,\  \
       //   _/  `-._  /  \ |--'  (     \
       //  '  `-.   `'    \/\`.   `.    )
-      //        \  150px?   \ `.  |    |
-      browser.execute('return document.body.scrollHeight') + 150
+      //        \  111px?   \ `.  |    |
+      browser.execute('return document.body.scrollHeight') + 111
     )
     assertDiff(browser.checkFullPageScreen(task.tag, options))
   }
