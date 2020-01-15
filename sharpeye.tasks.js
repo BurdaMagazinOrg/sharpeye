@@ -77,7 +77,7 @@ else {
       { $: '#edit-page-cache-maximum-age option[value="900"]' }
     ]},
     { name: 'Replace html', path: '/', actions: [
-        { $: '.field--name-field-image', replace: '<br>Placeholder<br>'}
+      { $: '.field--name-field-image', replace: '<br>Placeholder<br>'}
     ]}
   ]
 }

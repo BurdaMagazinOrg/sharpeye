@@ -6,7 +6,7 @@ program
   .option('-t, --tasks [path]', 'Path to tasks file')
   .option('-b, --single-browser [name]', 'Name for browser that will be used for execution')
   .option('-u, --base-url [url]', 'Base url of website, e.g. http://localhost:8080')
-  .option('-p, --selenium-port [port]', 'Selenium server port')
+  .option('-p, --selenium-port [port]', 'Selenium server port', function(param) { return parseInt(param, 10) })
   .option('--login-user [user]', 'User name for login form')
   .option('--login-pass [pass]', 'Password for login form')
   .parse(process.argv)
