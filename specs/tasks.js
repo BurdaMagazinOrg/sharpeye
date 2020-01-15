@@ -3,8 +3,7 @@ const tasks = require('../sharpeye.tasks')
 const options = require('../sharpeye.conf').options
 
 function assertDiff(result) {
-  assert.ok(result <= options.misMatchTolerance, 'Screenshot differs from reference by ' + result + '%.'
-  )
+  assert.ok(result <= options.misMatchTolerance, 'Screenshot differs from reference by ' + result + '%.')
 }
 
 const baseUrl = options.baseUrl
@@ -22,9 +21,7 @@ describe('Task', function() {
         task.tag = sanitize(task.path + '-' + task.name)
         task.misMatchTolerance = options.misMatchTolerance
         // Go through all actions.
-        // TODO: clickpath is deprecated and will be removed
-        let actions = task.clickpath ? task.clickpath : []
-        actions = task.actions ? task.actions : actions
+        let actions = task.actions ? task.actions : []
         actions.forEach(function(entry) {
           processAction(entry)
         })
@@ -73,10 +70,6 @@ function processAction(action) {
       element.scrollIntoView({block: 'center'})
       element.click()
     }
-
-    // if (action.moveToObject !== undefined) {
-    //   browser.moveTo(action.moveToObject, action.offsetx, action.offsety)
-    // }
 
     if (action.switchToFrame !== undefined) {
       // Value `null` is used to switch back to `main` frame.
