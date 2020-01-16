@@ -17,6 +17,9 @@ describe('Task', function() {
     // Check, if actions, or next page call.
     if (typeof task === 'object') {
       it(task.path + ' -> ' + task.name + ': should look good', function() {
+        if (task.viewports) {
+          alignHeight(task.viewports[0].width, task.viewports[0].height)
+        }
         browser.url(baseUrl + task.path)
         task.tag = sanitize(task.path + '-' + task.name)
         task.misMatchTolerance = options.misMatchTolerance
@@ -124,7 +127,7 @@ function takeScreenshot(task) {
 
   if (task.viewports) {
     task.viewports.forEach(function(viewport) {
-      browser.setWindowSize(viewport.width, viewport.height)
+      alignHeight(viewport.width, viewport.height)
       assertDiff(browser.checkFullPageScreen(task.tag, options))
     })
   }
@@ -142,7 +145,7 @@ function takeScreenshot(task) {
 // viewport height.
 // This fixes issues with static and fixed elements by 
 // disable the scrolling of checkFullPageScreen(). 
-function alignHeight() {
+function alignHeight(width, height) {
   let currentViewport = browser.execute(function() {
     return {
       width: Math.max(
@@ -156,8 +159,8 @@ function alignHeight() {
     }
   })
   let desiredViewport = {
-    width: 1280,
-    height: Math.max(
+    width: width ? width : 1280,
+    height: height ? height : Math.max(
       browser.execute(function() { return document.documentElement.scrollHeight }),
       800
     )
