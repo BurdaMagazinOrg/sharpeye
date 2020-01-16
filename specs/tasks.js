@@ -173,6 +173,8 @@ function alignHeight(width, height) {
     windowSize.height +
       (desiredViewport.height - currentViewport.height)
   )
+
+  browser.pause(1000)
 }
 
 function sanitize(string) {
