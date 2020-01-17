@@ -1,6 +1,8 @@
 const path = require("path")
 const fs = require("fs")
 const program = require("./cli")
+const customReporter = require ("./src/customReporter")
+
 
 let overwrites = {
   options: {},
@@ -189,7 +191,7 @@ exports.config = {
   // Test reporter for stdout.
   // The only one supported by default is 'dot'
   // see also: https://webdriver.io/docs/dot-reporter.html
-  reporters: ["dot"],
+  reporters: ["dot", customReporter],
 
   //
   // Options to be passed to Mocha.
