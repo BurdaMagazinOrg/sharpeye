@@ -163,7 +163,7 @@ function alignHeight(width, height) {
     }
   })
   // Let things settle a bit before getting scrollHeight.
-  browser.pause(1000)
+  browser.pause(1500)
 
   let desiredViewport = {
     width: width ? width : 1280,
@@ -181,7 +181,7 @@ function alignHeight(width, height) {
       (desiredViewport.height - currentViewport.height)
   )
   // Let things settle after resize.
-  browser.pause(1000)
+  browser.pause(1500)
 }
 
 function sanitize(string) {
