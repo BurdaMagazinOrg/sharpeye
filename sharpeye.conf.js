@@ -171,7 +171,7 @@ exports.config = {
         autoSaveBaseline: true,
         blockOutStatusBar: true,
         blockOutToolBar: true,
-        disableCSSAnimation: true
+        disableCSSAnimation: false
       }
     ]
   ],

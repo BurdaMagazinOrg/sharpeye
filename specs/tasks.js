@@ -90,6 +90,10 @@ function processAction(action) {
       browser.execute(dragAndDrop(), action.dragAndDrop, action.offsetx, action.offsety, isXPath(action.dragAndDrop))
     }
 
+    if (action.moveto) {
+      $(action.moveto.$).moveTo(action.moveto.xoffset, action.moveto.yoffset)
+    }
+
     if (action.wait) {
       $(action.wait).waitForDisplayed()
     }
@@ -158,7 +162,7 @@ function alignHeight(width, height) {
       )
     }
   })
-  // Let things settle a bit before getting scrollHeight
+  // Let things settle a bit before getting scrollHeight.
   browser.pause(1000)
 
   let desiredViewport = {
@@ -176,7 +180,8 @@ function alignHeight(width, height) {
     windowSize.height +
       (desiredViewport.height - currentViewport.height)
   )
-
+  // Let things settle after resize.
+  browser.pause(1000)
 }
 
 function sanitize(string) {
