@@ -1,6 +1,6 @@
-const path = require('path')
-const fs = require('fs')
-const program = require('./cli')
+const path = require("path")
+const fs = require("fs")
+const program = require("./cli")
 
 let overwrites = {
   options: {},
@@ -10,8 +10,8 @@ let overwrites = {
 if (program.config) {
   overwrites = require(fs.realpathSync(program.config))
 }
-else if (process.cwd() !== __dirname && fs.existsSync(path.join(process.cwd(), 'sharpeye.conf.js'))) {
-  overwrites = require(path.join(process.cwd(), 'sharpeye.conf.js'))
+else if (process.cwd() !== __dirname && fs.existsSync(path.join(process.cwd(), "sharpeye.conf.js"))) {
+  overwrites = require(path.join(process.cwd(), "sharpeye.conf.js"))
 }
 
 // Process --single-browser option, that will set execution to use only specified browser.
@@ -42,10 +42,10 @@ if (program.loginPass) {
 // Options for sharpeye
 exports.options = {
   // The base URL of the website.
-  baseUrl: 'http://thunder.test',
+  baseUrl: "http://thunder.test",
   // Specify directories, in which screenshots should be saved.
-  screenshotPath: process.cwd() + '/screenshots',
-  baselineFolder: process.cwd() + '/screenshots/reference',
+  screenshotPath: process.cwd() + "/screenshots",
+  baselineFolder: process.cwd() + "/screenshots/reference",
   // Specify the mismatch tolerance of the comparison.
   misMatchTolerance: 0.01
 }
