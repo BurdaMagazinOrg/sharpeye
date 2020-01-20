@@ -24,7 +24,7 @@ module.exports = {
         "no-console": "off",
         "quotes": [
             "error",
-            "single"
+            "double"
         ],
         "semi": [
             "error",

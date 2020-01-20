@@ -1,6 +1,8 @@
-const path = require('path')
-const fs = require('fs')
-const program = require('./cli')
+const path = require("path")
+const fs = require("fs")
+const program = require("./cli")
+const customReporter = require ("./src/customReporter")
+
 
 let overwrites = {
   options: {},
@@ -10,8 +12,8 @@ let overwrites = {
 if (program.config) {
   overwrites = require(fs.realpathSync(program.config))
 }
-else if (process.cwd() !== __dirname && fs.existsSync(path.join(process.cwd(), 'sharpeye.conf.js'))) {
-  overwrites = require(path.join(process.cwd(), 'sharpeye.conf.js'))
+else if (process.cwd() !== __dirname && fs.existsSync(path.join(process.cwd(), "sharpeye.conf.js"))) {
+  overwrites = require(path.join(process.cwd(), "sharpeye.conf.js"))
 }
 
 // Process --single-browser option, that will set execution to use only specified browser.
@@ -42,10 +44,10 @@ if (program.loginPass) {
 // Options for sharpeye
 exports.options = {
   // The base URL of the website.
-  baseUrl: 'http://thunder.test',
+  baseUrl: "http://thunder.test",
   // Specify directories, in which screenshots should be saved.
-  screenshotPath: process.cwd() + '/screenshots',
-  baselineFolder: process.cwd() + '/screenshots/reference',
+  screenshotPath: process.cwd() + "/screenshots",
+  baselineFolder: process.cwd() + "/screenshots/reference",
   // Specify the mismatch tolerance of the comparison.
   misMatchTolerance: 0.01
 }
@@ -60,7 +62,7 @@ exports.config = {
   //
   // WebdriverIO allows it to run your tests in arbitrary locations (e.g. locally or
   // on a remote machine).
-  runner: 'local',
+  runner: "local",
   //
   // ==================
   // Specify Test Files
@@ -70,7 +72,7 @@ exports.config = {
   // NPM script (see https://docs.npmjs.com/cli/run-script) then the current working
   // directory is where your package.json resides, so `wdio` will be called from there.
   //
-  specs: [__dirname + '/specs/**/*.js'],
+  specs: [__dirname + "/specs/**/*.js"],
   // Patterns to exclude.
   exclude: [
     // 'path/to/excluded/files'
@@ -104,7 +106,7 @@ exports.config = {
       // 5 instances get started at a time.
       maxInstances: 5,
       //
-      browserName: 'chrome'
+      browserName: "chrome"
       // If outputDir is provided WebdriverIO can capture driver session logs
       // it is possible to configure which logTypes to include/exclude.
       // excludeDriverLogs: ['*'], // pass '*' to exclude all driver session logs
@@ -118,7 +120,7 @@ exports.config = {
   // Define all options that are relevant for the WebdriverIO instance here
   //
   // Level of logging verbosity: trace | debug | info | warn | error | silent
-  logLevel: 'silent',
+  logLevel: "silent",
   //
   // Set specific log levels per logger
   // loggers:
@@ -142,7 +144,7 @@ exports.config = {
   // with `/`, the base url gets prepended, not including the path portion of your baseUrl.
   // If your `url` parameter starts without a scheme or `/` (like `some/path`), the base url
   // gets prepended directly.
-  baseUrl: 'http://localhost',
+  baseUrl: "http://localhost",
   //
   // Default timeout for all waitFor* commands.
   waitforTimeout: 10000,
@@ -160,17 +162,18 @@ exports.config = {
   // commands. Instead, they hook themselves up into the test process.
   services: [
     [
-      'image-comparison',
+      "image-comparison",
       {
         baselineFolder: exports.options.baselineFolder,
         // @todo: remove fake height for diffing old version screenshots.
-        formatImageName: '{tag}-{browserName}_1280',
+        formatImageName: "{tag}-{browserName}_1280",
         // formatImageName: "{tag}-{browserName}-{width}x{height}",
         screenshotPath: exports.options.screenshotPath,
         savePerInstance: false,
         autoSaveBaseline: true,
         blockOutStatusBar: true,
         blockOutToolBar: true,
+        disableCSSAnimation: false
       }
     ]
   ],
@@ -180,7 +183,7 @@ exports.config = {
   //
   // Make sure you have the wdio adapter package for the specific framework installed
   // before running any tests.
-  framework: 'mocha',
+  framework: "mocha",
   //
   // The number of times to retry the entire specfile when it fails as a whole
   // specFileRetries: 1,
@@ -188,13 +191,13 @@ exports.config = {
   // Test reporter for stdout.
   // The only one supported by default is 'dot'
   // see also: https://webdriver.io/docs/dot-reporter.html
-  reporters: ['dot'],
+  reporters: ["dot", customReporter],
 
   //
   // Options to be passed to Mocha.
   // See the full list at http://mochajs.org/
   mochaOpts: {
-    ui: 'bdd',
+    ui: "bdd",
     timeout: 10000000
   }
   //
