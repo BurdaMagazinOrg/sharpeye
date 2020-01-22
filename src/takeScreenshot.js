@@ -36,7 +36,9 @@ const takeScreenshot = task => {
 
     if (task.viewports) {
       task.viewports.forEach(viewport => {
-        alignHeight(viewport.width, viewport.height)
+        if (task.alignHeight) {
+          alignHeight(viewport.width, viewport.height)
+        }
         assertDiff(browser.checkFullPageScreen(task.tag, options))
       })
 
@@ -44,12 +46,16 @@ const takeScreenshot = task => {
       assertDiff(browser.checkElement($(task.element), task.tag, options))
 
     } else {
-      alignHeight()
+      if (task.alignHeight) {
+        alignHeight()
+      }
       assertDiff(browser.checkFullPageScreen(task.tag, options))
     }
 
   } else {
-    alignHeight()
+    if (task.alignHeight) {
+      alignHeight()
+    }
     assertDiff(browser.checkFullPageScreen(task, {}))
   }
 
