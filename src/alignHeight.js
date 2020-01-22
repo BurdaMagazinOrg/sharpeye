@@ -19,7 +19,7 @@ const alignHeight = (width, height) => {
     }
   })
   // Let things settle a bit before getting scrollHeight.
-  browser.pause(1500)
+  browser.pause(1000)
 
   let desiredViewport = {
     width: width ? width : 1280,
@@ -34,7 +34,7 @@ const alignHeight = (width, height) => {
     windowSize.height + (desiredViewport.height - currentViewport.height)
   )
   // Let things settle after resize.
-  browser.pause(1500)
+  browser.pause(1000)
 }
 
 module.exports = alignHeight
