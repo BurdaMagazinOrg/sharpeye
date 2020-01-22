@@ -55,7 +55,6 @@ const takeScreenshot = task => {
   } else {
     assertDiff(browser.checkFullPageScreen(task, {}))
   }
-
 }
 
 const assertDiff = (result) => {

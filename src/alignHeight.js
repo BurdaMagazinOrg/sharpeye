@@ -6,6 +6,9 @@
 */
 const alignHeight = (width, height) => {
 
+  // Let things settle a bit before calculating desired height.
+  browser.pause(1500)
+
   let currentViewport = browser.execute(function() {
     return {
       width: Math.max(
@@ -18,8 +21,6 @@ const alignHeight = (width, height) => {
       )
     }
   })
-  // Let things settle a bit before getting scrollHeight.
-  browser.pause(1000)
 
   let desiredViewport = {
     width: width ? width : 1280,
