@@ -6,9 +6,6 @@
 */
 const alignHeight = (width, height) => {
 
-  // Let things settle a bit before calculating desired height.
-  browser.pause(1500)
-
   let currentViewport = browser.execute(function() {
     return {
       width: Math.max(
@@ -34,8 +31,6 @@ const alignHeight = (width, height) => {
     windowSize.width + (desiredViewport.width - currentViewport.width),
     windowSize.height + (desiredViewport.height - currentViewport.height)
   )
-  // Let things settle after resize.
-  browser.pause(1000)
 }
 
 module.exports = alignHeight

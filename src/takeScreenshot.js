@@ -44,7 +44,11 @@ const takeScreenshot = task => {
       assertDiff(browser.checkElement($(task.element), task.tag, options))
 
     } else if (task.fullPage) {
+      // Let things settle a bit before calculating desired height.
+      browser.pause(task.pause || 1500)
       alignHeight()
+      // Let things settle after resize.
+      browser.pause(task.pause || 1500)
       assertDiff(browser.checkFullPageScreen(task.tag, options))
 
     } else {

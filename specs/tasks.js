@@ -9,7 +9,7 @@ const takeScreenshot = require("../src/takeScreenshot")
 
 describe("Task", function() {
   beforeEach(function() {
-    browser.setWindowRect(0,0, 1280, 800)
+    alignHeight(1280, 800)
   })
 
   tasks.forEach(function(task, index, arr) {
@@ -17,7 +17,7 @@ describe("Task", function() {
     if (typeof task === "object") {
       it(task.path + (task.name ? " -> " + task.name : "") + ": should look good", () => {
         if (task.viewports) {
-          alignHeight(task.viewports[0].width, task.viewports[0].height)
+          alignHeight(task.viewports[0].width, task.viewports[0].height, 0)
         }
         browser.url(baseUrl + task.path)
         task.tag = sanitizeTag(task.path + (task.name ? "-" + task.name : ""))
