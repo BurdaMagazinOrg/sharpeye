@@ -36,26 +36,23 @@ const takeScreenshot = task => {
 
     if (task.viewports) {
       task.viewports.forEach(viewport => {
-        if (task.alignHeight) {
-          alignHeight(viewport.width, viewport.height)
-        }
+        alignHeight(viewport.width, viewport.height)
         assertDiff(browser.checkFullPageScreen(task.tag, options))
       })
 
     } else if (task.element) {
       assertDiff(browser.checkElement($(task.element), task.tag, options))
 
-    } else {
-      if (task.alignHeight) {
-        alignHeight()
-      }
+    } else if (task.fullPage) {
+      alignHeight()
       assertDiff(browser.checkFullPageScreen(task.tag, options))
+
+    } else {
+      assertDiff(browser.checkScreen(task.tag, options))
     }
 
+  // Deprecated: task should be object not path only.
   } else {
-    if (task.alignHeight) {
-      alignHeight()
-    }
     assertDiff(browser.checkFullPageScreen(task, {}))
   }
 
