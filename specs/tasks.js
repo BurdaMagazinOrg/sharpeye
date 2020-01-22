@@ -9,7 +9,7 @@ const takeScreenshot = require("../src/takeScreenshot")
 
 describe("Task", function() {
   beforeEach(function() {
-    browser.setWindowSize(1280, 800)
+    browser.setWindowRect(0,0, 1280, 800)
   })
 
   tasks.forEach(function(task, index, arr) {
