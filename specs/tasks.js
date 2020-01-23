@@ -17,7 +17,7 @@ describe("Task", function() {
     if (typeof task === "object") {
       it(task.path + (task.name ? " -> " + task.name : "") + ": should look good", () => {
         if (task.viewports) {
-          alignHeight(task.viewports[0].width, task.viewports[0].height, 0)
+          alignHeight(task.viewports[0].width, task.viewports[0].height)
         }
         browser.url(baseUrl + task.path)
         task.tag = sanitizeTag(task.path + (task.name ? "-" + task.name : ""))

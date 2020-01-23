@@ -37,6 +37,7 @@ const takeScreenshot = task => {
     if (task.viewports) {
       task.viewports.forEach(viewport => {
         alignHeight(viewport.width, viewport.height)
+        browser.pause(task.pause || 1500)
         assertDiff(browser.checkFullPageScreen(task.tag, options))
       })
 
