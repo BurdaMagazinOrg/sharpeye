@@ -37,22 +37,29 @@ const takeScreenshot = task => {
     if (task.viewports) {
       task.viewports.forEach(viewport => {
         alignHeight(viewport.width, viewport.height)
+        browser.pause(task.pause || 1500)
         assertDiff(browser.checkFullPageScreen(task.tag, options))
       })
 
     } else if (task.element) {
       assertDiff(browser.checkElement($(task.element), task.tag, options))
 
-    } else {
+    } else if (task.fullPage) {
+      // Let things settle a bit before calculating desired height.
+      browser.pause(task.pause || 1500)
       alignHeight()
+      // Let things settle after resize.
+      browser.pause(task.pause || 1500)
       assertDiff(browser.checkFullPageScreen(task.tag, options))
+
+    } else {
+      assertDiff(browser.checkScreen(task.tag, options))
     }
 
+  // Deprecated: task should be object not path only.
   } else {
-    alignHeight()
     assertDiff(browser.checkFullPageScreen(task, {}))
   }
-
 }
 
 const assertDiff = (result) => {
