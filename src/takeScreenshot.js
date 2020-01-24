@@ -38,6 +38,8 @@ const takeScreenshot = task => {
       task.viewports.forEach(viewport => {
         alignHeight(viewport.width, viewport.height)
         browser.pause(task.pause || 1500)
+
+        tameMouse()
         assertDiff(browser.checkFullPageScreen(task.tag, options))
       })
 
@@ -50,9 +52,13 @@ const takeScreenshot = task => {
       alignHeight()
       // Let things settle after resize.
       browser.pause(task.pause || 1500)
+
+      tameMouse()
       assertDiff(browser.checkFullPageScreen(task.tag, options))
 
     } else {
+
+      tameMouse()
       assertDiff(browser.checkScreen(task.tag, options))
     }
 
@@ -67,6 +73,10 @@ const assertDiff = (result) => {
     result <= options.misMatchTolerance, 
     "Screenshot differs from reference by " + result + "%."
   )
+}
+
+const tameMouse = () => {
+  browser.releaseActions()
 }
 
 module.exports = takeScreenshot
