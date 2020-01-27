@@ -76,7 +76,22 @@ const assertDiff = (result) => {
 }
 
 const tameMouse = () => {
-  browser.releaseActions()
+  browser.performActions([{
+    type: "pointer",
+    id: "finger1",
+    parameters: {
+      pointerType: "mouse"
+    },
+    actions: [
+      {
+        type: "pointerMove",
+        duration: 0,
+        x: 0,
+        y: 0
+      },
+      { "type": "pause", "duration": 500 },
+    ]
+  }])
 }
 
 module.exports = takeScreenshot
