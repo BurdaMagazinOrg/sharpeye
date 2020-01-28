@@ -80,7 +80,7 @@ const tameMouse = () => {
     type: "pointer",
     id: "finger1",
     parameters: {
-      pointerType: "mouse"
+      pointerType: "touch"
     },
     actions: [
       {
