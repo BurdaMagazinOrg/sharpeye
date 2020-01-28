@@ -78,7 +78,7 @@ const assertDiff = (result) => {
 const tameMouse = () => {
   browser.performActions([{
     type: "pointer",
-    id: "finger1",
+    id: "finger2",
     parameters: {
       pointerType: "touch"
     },
