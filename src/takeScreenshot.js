@@ -80,16 +80,19 @@ const tameMouse = () => {
     type: "pointer",
     id: "finger2",
     parameters: {
-      pointerType: "touch"
+      pointerType: "mouse"
     },
     actions: [
+      { "type": "pointerDown", "button": 0 },
       {
         type: "pointerMove",
-        duration: 0,
-        x: 0,
-        y: 0
+        origin: "pointer",
+        duration: 100,
+        x: 50,
+        y: 110
       },
-      { "type": "pause", "duration": 500 },
+      { "type": "pointerUp", "button": 0 },
+      { "type": "pause", "duration": 500 }
     ]
   }])
 }
