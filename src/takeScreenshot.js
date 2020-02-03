@@ -86,7 +86,7 @@ const tameMouse = () => {
       { "type": "pointerDown", "button": 0 },
       {
         type: "pointerMove",
-        origin: "pointer",
+        origin: "viewport",
         duration: 100,
         x: 50,
         y: 110
