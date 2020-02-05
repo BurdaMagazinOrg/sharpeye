@@ -36,10 +36,6 @@ const takeScreenshot = task => {
       task.viewports.forEach(viewport => {
         alignHeight(viewport.width, viewport.height)
         browser.pause(task.pause || 1500)
-
-        if (task.resetMouse) {
-          resetMouse()
-        }
         assertDiff(browser.checkFullPageScreen(task.tag, options))
       })
 
@@ -53,16 +49,10 @@ const takeScreenshot = task => {
       // Let things settle after resize.
       browser.pause(task.pause || 1500)
 
-      if (task.resetMouse) {
-        resetMouse()
-      }
       assertDiff(browser.checkFullPageScreen(task.tag, options))
 
     } else {
 
-      if (task.resetMouse) {
-        resetMouse()
-      }
       assertDiff(browser.checkScreen(task.tag, options))
     }
 
@@ -77,26 +67,6 @@ const assertDiff = (result) => {
     result <= options.misMatchTolerance, 
     "Screenshot differs from reference by " + result + "%."
   )
-}
-
-const resetMouse = () => {
-  browser.performActions([{
-    type: "pointer",
-    id: "finger1",
-    parameters: {
-      pointerType: "mouse"
-    },
-    actions: [
-      {
-        type: "pointerMove",
-        origin: "viewport",
-        duration: 100,
-        x: 0,
-        y: 0
-      },
-      { "type": "pause", "duration": 500 }
-    ]
-  }])
 }
 
 module.exports = takeScreenshot
