@@ -51,7 +51,9 @@ const processAction = (action) => {
     }
 
     if (action.moveto) {
-      $(action.moveto.$).moveTo(action.moveto.xoffset, action.moveto.yoffset)
+      const element = $(action.moveto.$)
+      element.waitForDisplayed()
+      element.moveTo(action.moveto.xoffset, action.moveto.yoffset)
     }
 
     if (action.wait) {
