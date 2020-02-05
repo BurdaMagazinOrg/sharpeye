@@ -12,6 +12,10 @@ const replaceContent = require("./replaceContent")
  * @see https://github.com/wswebcreation/webdriver-image-comparison
  */
 const takeScreenshot = task => {
+  let screenshotOptions = {}
+  // Merge global options
+  Object.assign(screenshotOptions, options)
+
   if (typeof task === "object") {
 
     if (task.replace) {
@@ -21,13 +25,13 @@ const takeScreenshot = task => {
     }
 
     if (task.hide) {
-      options.hideElements = task.hide.map(selector => {
+      screenshotOptions.hideElements = task.hide.map(selector => {
         return $$(selector)
       })
     }
 
     if (task.remove) {
-      options.removeElements = task.remove.map(selector => {
+      screenshotOptions.removeElements = task.remove.map(selector => {
         return $$(selector)
       })
     }
@@ -36,11 +40,11 @@ const takeScreenshot = task => {
       task.viewports.forEach(viewport => {
         alignHeight(viewport.width, viewport.height)
         browser.pause(task.pause || 1500)
-        assertDiff(browser.checkFullPageScreen(task.tag, options))
+        assertDiff(browser.checkFullPageScreen(task.tag, screenshotOptions))
       })
 
     } else if (task.element) {
-      assertDiff(browser.checkElement($(task.element), task.tag, options))
+      assertDiff(browser.checkElement($(task.element), task.tag, screenshotOptions))
 
     } else if (task.fullPage) {
       // Let things settle a bit before calculating desired height.
@@ -48,17 +52,15 @@ const takeScreenshot = task => {
       alignHeight()
       // Let things settle after resize.
       browser.pause(task.pause || 1500)
-
-      assertDiff(browser.checkFullPageScreen(task.tag, options))
+      assertDiff(browser.checkFullPageScreen(task.tag, screenshotOptions))
 
     } else {
-
-      assertDiff(browser.checkScreen(task.tag, options))
+      assertDiff(browser.checkScreen(task.tag, screenshotOptions))
     }
 
   // Deprecated: task should be object not path only.
   } else {
-    assertDiff(browser.checkFullPageScreen(task, {}))
+    assertDiff(browser.checkFullPageScreen(task, screenshotOptions))
   }
 }
 
