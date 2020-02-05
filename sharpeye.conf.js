@@ -18,7 +18,7 @@ else if (process.cwd() !== __dirname && fs.existsSync(path.join(process.cwd(), "
 
 // Process --single-browser option, that will set execution to use only specified browser.
 if (program.singleBrowser) {
-  overwrites.config.capabilities[0].browserName = program.singleBrowser
+  overwrites.config.capabilities = [overwrites.capabilities[program.singleBrowser]]
 }
 
 // Process --selenium-port option, that will connect to specified selenium server.
