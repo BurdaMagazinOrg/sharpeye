@@ -12,8 +12,6 @@ const replaceContent = require("./replaceContent")
  * @see https://github.com/wswebcreation/webdriver-image-comparison
  */
 const takeScreenshot = task => {
-  let options = {}
-  
   if (typeof task === "object") {
 
     if (task.replace) {
