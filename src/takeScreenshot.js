@@ -18,6 +18,10 @@ const takeScreenshot = task => {
 
   if (typeof task === "object") {
 
+    if (task.tolerance) {
+      screenshotOptions.misMatchTolerance = task.tolerance
+    }
+
     if (task.replace) {
       task.replace.forEach(entry => {
         browser.execute(replaceContent(), entry.$, entry.value, isXPath(entry.$))
