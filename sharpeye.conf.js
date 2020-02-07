@@ -49,7 +49,7 @@ exports.options = {
   screenshotPath: process.cwd() + "/screenshots",
   baselineFolder: process.cwd() + "/screenshots/reference",
   // Specify the mismatch tolerance of the comparison.
-  misMatchTolerance: 0.01,
+  misMatchTolerance: 0,
   rawMisMatchPercentage: true
 }
 
