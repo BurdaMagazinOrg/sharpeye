@@ -18,7 +18,7 @@ else if (process.cwd() !== __dirname && fs.existsSync(path.join(process.cwd(), "
 
 // Process --single-browser option, that will set execution to use only specified browser.
 if (program.singleBrowser) {
-  overwrites.config.capabilities = [{browserName: program.singleBrowser}]
+  overwrites.config.capabilities = [overwrites.capabilities[program.singleBrowser]]
 }
 
 // Process --selenium-port option, that will connect to specified selenium server.
@@ -49,7 +49,8 @@ exports.options = {
   screenshotPath: process.cwd() + "/screenshots",
   baselineFolder: process.cwd() + "/screenshots/reference",
   // Specify the mismatch tolerance of the comparison.
-  misMatchTolerance: 0.01
+  misMatchTolerance: 0,
+  rawMisMatchPercentage: true
 }
 
 Object.assign(exports.options, overwrites.options)
