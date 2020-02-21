@@ -54,16 +54,19 @@ const takeScreenshot = task => {
       alignHeight()
       // Let things settle after resize.
       browser.pause(task.pause || 0)
-      assertDiff(browser.checkFullPageScreen(task.tag, screenshotOptions))
+      // assertDiff(browser.checkFullPageScreen(task.tag, screenshotOptions))
+      retryCheck("checkFullPageScreen", task.tag, screenshotOptions)
 
     } else {
       browser.pause(task.pause || 0)
-      assertDiff(browser.checkScreen(task.tag, screenshotOptions))
+      //assertDiff(browser.checkScreen(task.tag, screenshotOptions)
+      retryCheck("checkScreen", task.tag, screenshotOptions)
     }
 
   // Deprecated: task should be object not path only.
   } else {
-    assertDiff(browser.checkFullPageScreen(task, screenshotOptions))
+    //assertDiff(browser.checkFullPageScreen(task, screenshotOptions))
+    retryCheck("checkFullPageScreen", task, screenshotOptions)
   }
 }
 
@@ -72,6 +75,21 @@ const assertDiff = (result) => {
     result <= options.misMatchTolerance, 
     "Screenshot differs from reference by " + result + "%."
   )
+}
+
+const retryCheck = (func, tag, screenshotOptions) => {
+  let result
+  let i = 0
+
+  do {
+    i += 1
+    result = browser[func](tag, screenshotOptions)
+  }
+  while (result != 0 && result <= 5 && i < 3)
+
+  result = 0 && i > 1 && console.log("Needed " + i + " retries for screenshots to match.")
+
+  assertDiff(result)
 }
 
 module.exports = takeScreenshot
