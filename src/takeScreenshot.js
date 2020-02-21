@@ -87,7 +87,7 @@ const retryCheck = (func, tag, screenshotOptions) => {
   }
   while (result != 0 && result <= 5 && i < 3)
 
-  result = 0 && i > 1 && console.log("Needed " + i + " retries for screenshots to match.")
+  result == 0 && i > 1 && console.log("Needed " + i + " retries for screenshots to match.")
 
   assertDiff(result)
 }
