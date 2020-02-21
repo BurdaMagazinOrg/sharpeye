@@ -83,11 +83,12 @@ const retryCheck = (func, tag, screenshotOptions) => {
 
   do {
     i += 1
+    browser.pause(500)
     result = browser[func](tag, screenshotOptions)
   }
-  while (result != 0 && result <= 5 && i < 3)
+  while (result != 0 && result <= 5 && i < 5)
 
-  result == 0 && i > 1 && console.log("Needed " + i + " retries for screenshots to match.")
+  i > 1 && console.log("Number of retries: " + i)
 
   assertDiff(result)
 }
