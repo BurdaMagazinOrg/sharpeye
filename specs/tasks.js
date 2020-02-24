@@ -13,10 +13,10 @@ describe("Task", function() {
     alignHeight(1280, 800)
   })
 
-  tasks.forEach(function(task, index, arr) {
+  tasks.forEach(function(task) {
     // Check, if actions, or next page call.
     if (typeof task === "object") {
-      it(task.path + (task.name ? " -> " + task.name : "") + ": should look good", () => {
+      it(task.path + (task.name ? " -> " + task.name : "") + ": should look good", function() {
         if (task.viewports) {
           alignHeight(task.viewports[0].width, task.viewports[0].height)
         }
@@ -41,7 +41,7 @@ describe("Task", function() {
       })
     }
     else {
-      it(sanitizeTag(task) + ": should look good", () => {
+      it(sanitizeTag(task) + ": should look good", function() {
         // Open next page
         browser.url(baseUrl + task)
         takeScreenshot(sanitizeTag(task))
