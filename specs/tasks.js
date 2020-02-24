@@ -8,6 +8,7 @@ const sanitizeTag = require("../src/sanitizeTag")
 const takeScreenshot = require("../src/takeScreenshot")
 
 describe("Task", function() {
+  this.retries(5)
   beforeEach(function() {
     alignHeight(1280, 800)
   })
