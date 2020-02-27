@@ -8,7 +8,7 @@ const replaceContent = require("./replaceContent")
 
 /**
  * Use webdriver image comparison service.
- * 
+ *
  * @see https://github.com/wswebcreation/webdriver-image-comparison
  */
 const takeScreenshot = task => {
