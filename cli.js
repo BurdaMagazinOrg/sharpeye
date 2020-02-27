@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 const program = require("commander")
 
 program
