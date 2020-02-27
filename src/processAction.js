@@ -1,12 +1,12 @@
 const dragAndDrop = require("./dragAndDrop")
 const isXPath = require("./isXPath")
 
-/* 
+/**
  * Main task processor.
  *
  * @see https://webdriver.io/docs/api.html
  */
-const processAction = (action) => {
+const processAction = action => {
   // Click with waiting
   if (typeof action === "object") {
     if (action.waitBefore !== undefined) {
@@ -59,10 +59,6 @@ const processAction = (action) => {
     if (action.wait) {
       $(action.wait).waitForDisplayed()
     }
-  }
-  // Click only.
-  else {
-    element.click(action)
   }
 }
 
