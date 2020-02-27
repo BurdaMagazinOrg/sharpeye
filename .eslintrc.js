@@ -17,6 +17,10 @@ module.exports = {
     "sourceType": "module"
   },
   "rules": {
+    "func-names": [
+      "error",
+      "never"
+    ],
     "indent": [
       "error",
       2
@@ -26,6 +30,10 @@ module.exports = {
       "unix"
     ],
     "no-console": "off",
+    "no-param-reassign": [
+      "error",
+      { "props": false }
+    ],
     "quotes": [
       "error",
       "double"
