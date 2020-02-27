@@ -3,10 +3,9 @@
  * viewport height.
  * This fixes issues with static and fixed elements by
  * disable the scrolling of checkFullPageScreen().
-*/
+ */
 const alignHeight = (width, height) => {
-
-  let currentViewport = browser.execute(function() {
+  const currentViewport = browser.execute(function() {
     return {
       width: Math.max(
         document.documentElement.clientWidth,
@@ -19,13 +18,18 @@ const alignHeight = (width, height) => {
     }
   })
 
-  let desiredViewport = {
-    width: width ? width : 1280,
-    height: height ? height : Math.max(browser.execute(function() { return document.documentElement.scrollHeight }),
-      800
-    )
+  const desiredViewport = {
+    width: width || 1280,
+    height:
+      height ||
+      Math.max(
+        browser.execute(function() {
+          return document.documentElement.scrollHeight
+        }),
+        800
+      )
   }
-  let windowSize = browser.getWindowSize()
+  const windowSize = browser.getWindowSize()
 
   browser.setWindowSize(
     windowSize.width + (desiredViewport.width - currentViewport.width),
