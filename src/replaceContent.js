@@ -1,26 +1,31 @@
+/* eslint-disable no-var */
 const replaceContent = () => {
   return function(selector, content, isXPath) {
+    var xPathRes
+    var nodes
+    var node
+
     if (isXPath) {
-      var xPathRes = document.evaluate(
+      xPathRes = document.evaluate(
         selector,
         document,
         null,
         XPathResult.ANY_TYPE,
         null
       )
-      var nodes = []
-      var node = xPathRes.iterateNext()
+      nodes = []
+      node = xPathRes.iterateNext()
 
       while (node) {
         nodes.push(node)
         node = xPathRes.iterateNext()
       }
       if (nodes.length) {
-        nodes.forEach(function(node) {
-          if (node.childNodes.length) {
-            node.innerHTML = content
+        nodes.forEach(function(innerNode) {
+          if (innerNode.childNodes.length) {
+            innerNode.innerHTML = content
           } else {
-            node.nodeValue = content
+            innerNode.nodeValue = content
           }
         })
       }
