@@ -3,7 +3,7 @@
 const path = require("path")
 const Launcher = require("@wdio/cli").default
 
-// This will give the user information about available options
+// This will give the user information about available options.
 // eslint-disable-next-line no-unused-expressions
 require("./cli").default
 
