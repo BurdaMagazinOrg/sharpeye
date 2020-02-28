@@ -31,6 +31,11 @@ if (program.baseUrl) {
   overwrites.options.baseUrl = program.baseUrl
 }
 
+// Process --num-retries option.
+if (program.numRetries) {
+  overwrites.options.numRetries = program.numRetries
+}
+
 // Process --login-user option, that will provide login user
 if (program.loginUser) {
   overwrites.options.user = program.loginUser
@@ -50,7 +55,8 @@ exports.options = {
   baselineFolder: process.cwd() + "/screenshots/reference",
   // Specify the mismatch tolerance of the comparison.
   misMatchTolerance: 0,
-  rawMisMatchPercentage: true
+  rawMisMatchPercentage: true,
+  numRetries: 5
 }
 
 Object.assign(exports.options, overwrites.options)
