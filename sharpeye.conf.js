@@ -1,8 +1,9 @@
+/* eslint-disable global-require */
+/* eslint-disable import/no-dynamic-require */
 const path = require("path")
 const fs = require("fs")
 const program = require("./cli")
-const customReporter = require ("./src/customReporter")
-
+const customReporter = require("./src/customReporter")
 
 let overwrites = {
   options: {},
@@ -11,14 +12,18 @@ let overwrites = {
 
 if (program.config) {
   overwrites = require(fs.realpathSync(program.config))
-}
-else if (process.cwd() !== __dirname && fs.existsSync(path.join(process.cwd(), "sharpeye.conf.js"))) {
+} else if (
+  process.cwd() !== __dirname &&
+  fs.existsSync(path.join(process.cwd(), "sharpeye.conf.js"))
+) {
   overwrites = require(path.join(process.cwd(), "sharpeye.conf.js"))
 }
 
 // Process --single-browser option, that will set execution to use only specified browser.
 if (program.singleBrowser) {
-  overwrites.config.capabilities = [overwrites.capabilities[program.singleBrowser]]
+  overwrites.config.capabilities = [
+    overwrites.capabilities[program.singleBrowser]
+  ]
 }
 
 // Process --selenium-port option, that will connect to specified selenium server.
@@ -51,8 +56,8 @@ exports.options = {
   // The base URL of the website.
   baseUrl: "http://thunder.test",
   // Specify directories, in which screenshots should be saved.
-  screenshotPath: process.cwd() + "/screenshots",
-  baselineFolder: process.cwd() + "/screenshots/reference",
+  screenshotPath: `${process.cwd()}/screenshots`,
+  baselineFolder: `${process.cwd()}/screenshots/reference`,
   // Specify the mismatch tolerance of the comparison.
   misMatchTolerance: 0,
   rawMisMatchPercentage: true,
@@ -79,7 +84,7 @@ exports.config = {
   // NPM script (see https://docs.npmjs.com/cli/run-script) then the current working
   // directory is where your package.json resides, so `wdio` will be called from there.
   //
-  specs: [__dirname + "/specs/**/*.js"],
+  specs: [path.join(__dirname, "/specs/**/*.js")],
   // Patterns to exclude.
   exclude: [
     // 'path/to/excluded/files'
@@ -322,8 +327,8 @@ exports.config = {
    * @param {String} oldSessionId session ID of the old session
    * @param {String} newSessionId session ID of the new session
    */
-  //onReload: function(oldSessionId, newSessionId) {
-  //}
+  // onReload: function(oldSessionId, newSessionId) {
+  // }
 }
 
 Object.assign(exports.config, overwrites.config)
