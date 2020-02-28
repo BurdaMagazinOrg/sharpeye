@@ -28,7 +28,7 @@
     "test": "test"
   },
   "scripts": {
-    "test": "mocha",
+    "test": "node test/server.js & sharpeye -b chrome -c test/sharpeye.conf.js -t test/sharpeye.tasks.js",
     "lint": "eslint ."
   },
   "bin": {
