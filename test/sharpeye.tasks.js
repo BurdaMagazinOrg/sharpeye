@@ -1,4 +1,5 @@
 module.exports = [
   { name: "Details open", path: "/test" },
-  { name: "Details closed", path: "/test", actions: [{ $: "summary" }] }
+  { name: "Details closed", path: "/test", actions: [{ $: "summary" }] },
+  '/test/index.html'
 ]
