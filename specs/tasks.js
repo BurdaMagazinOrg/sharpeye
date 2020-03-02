@@ -3,9 +3,10 @@ const alignHeight = require("../src/alignHeight")
 const processAction = require("../src/processAction")
 const sanitizeTag = require("../src/sanitizeTag")
 const takeScreenshot = require("../src/takeScreenshot")
-const { options } = require("../sharpeye.conf")
-
-const { baseUrl } = options
+const {
+  options,
+  options: { baseUrl }
+} = require("../sharpeye.conf")
 
 describe("Task", function() {
   this.retries(options.numRetries)
