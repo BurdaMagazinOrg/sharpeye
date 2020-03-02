@@ -11,6 +11,7 @@
     "webdriverio": "^5.18.4"
   },
   "devDependencies": {
+    "concurrently": "^5.1.0",
     "eslint": "^6.8.0",
     "eslint-config-airbnb": "^18.0.1",
     "eslint-config-prettier": "^6.10.0",
@@ -28,7 +29,7 @@
     "test": "test"
   },
   "scripts": {
-    "test": "node test/server.js & sharpeye -b chrome -c test/sharpeye.conf.js -t test/sharpeye.tasks.js",
+    "test": "concurrently --success first --kill-others \"node test/server.js\" \"node index.js -b chrome -c test/sharpeye.conf.js -t test/sharpeye.tasks.js\"",
     "lint": "eslint ."
   },
   "bin": {
