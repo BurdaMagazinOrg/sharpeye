@@ -1,4 +1,4 @@
 node_modules
-errorShots
-screenshots
+test/screenshots/actual
+test/screenshots/diff
 .idea
