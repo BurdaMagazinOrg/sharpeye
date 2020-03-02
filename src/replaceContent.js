@@ -1,20 +1,15 @@
-/* eslint-disable no-var */
 const replaceContent = () => {
   return function(selector, content, isXPath) {
-    var xPathRes
-    var nodes
-    var node
-
     if (isXPath) {
-      xPathRes = document.evaluate(
+      const xPathRes = document.evaluate(
         selector,
         document,
         null,
         XPathResult.ANY_TYPE,
         null
       )
-      nodes = []
-      node = xPathRes.iterateNext()
+      const nodes = []
+      let node = xPathRes.iterateNext()
 
       while (node) {
         nodes.push(node)

@@ -1,11 +1,10 @@
-/* eslint-disable no-var */
 const dragAndDrop = () => {
   return function(selector, offsetX, offsetY, isXPath) {
     // Drag element in document with defined offset position.
     // We have to fake this since browser.moveTo() is not working for
     // firefox.
-    let fireMouseEvent = function(type, element, x, y) {
-      let event = document.createEvent("MouseEvents")
+    const fireMouseEvent = function(type, element, x, y) {
+      const event = document.createEvent("MouseEvents")
       event.initMouseEvent(
         type,
         true,
