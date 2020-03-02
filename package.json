@@ -23,7 +23,7 @@
     "prettier": "^1.19.1"
   },
   "name": "sharpeye",
-  "version": "4.3.0",
+  "version": "5.0.0",
   "main": "index.js",
   "directories": {
     "test": "test"
