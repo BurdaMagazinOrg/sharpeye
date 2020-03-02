@@ -5,7 +5,7 @@ const { exists, statSync, readFile } = require("fs")
 const path = require("path")
 
 const port = process.argv[2] || 8888
-const basePath = process.argv[3] || "test"
+const basePath = process.argv[3] || ""
 
 createServer(function(request, response) {
   const uri = parse(request.url).pathname

@@ -2,6 +2,8 @@
 exports.options = {
   // The base URL of the website.
   baseUrl: "http://localhost:8888",
+  screenshotPath: `${process.cwd()}/test/screenshots`,
+  baselineFolder: `${process.cwd()}/test/screenshots/reference`,
   // Specify the mismatch tolerance of the comparison.
   misMatchTolerance: 0
 }
