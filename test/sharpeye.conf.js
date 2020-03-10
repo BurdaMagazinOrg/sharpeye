@@ -6,7 +6,7 @@ exports.options = {
   baselineFolder: `${process.cwd()}/test/screenshots/reference`,
   // Specify the mismatch tolerance of the comparison.
   misMatchTolerance: 0
-}
+};
 
 // Webdriver.io config overwrites.
 exports.config = {
@@ -25,7 +25,7 @@ exports.config = {
   deprecationWarnings: false,
   logLevel: "silent",
   capabilities: [] // Will be overriden when using --single-browser option
-}
+};
 
 // Additional capabilities for certain browsers when using --single-browser option.
 exports.capabilities = {
@@ -44,4 +44,4 @@ exports.capabilities = {
       w3c: true
     }
   }
-}
+};

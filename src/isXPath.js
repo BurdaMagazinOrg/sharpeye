@@ -7,7 +7,7 @@ const isXPath = selector => {
     selector.indexOf("../") === 0 ||
     selector.indexOf("./") === 0 ||
     selector.indexOf("*/") === 0
-  )
-}
+  );
+};
 
-module.exports = isXPath
+module.exports = isXPath;

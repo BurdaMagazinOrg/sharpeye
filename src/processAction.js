@@ -1,5 +1,5 @@
-const dragAndDrop = require("./dragAndDrop")
-const isXPath = require("./isXPath")
+const dragAndDrop = require("./dragAndDrop");
+const isXPath = require("./isXPath");
 
 /**
  * Main task processor.
@@ -10,33 +10,33 @@ const processAction = action => {
   // Click with waiting
   if (typeof action === "object") {
     if (action.waitBefore !== undefined) {
-      browser.pause(action.waitBefore)
+      browser.pause(action.waitBefore);
     }
 
     if (action.fill) {
       action.fill.forEach(entry => {
-        const element = $(entry.$)
-        element.waitForDisplayed()
-        element.setValue(entry.value)
-      })
+        const element = $(entry.$);
+        element.waitForDisplayed();
+        element.setValue(entry.value);
+      });
     }
 
     if (action.selector !== undefined || action.$ !== undefined) {
-      const selector = action.selector || action.$
-      const element = $(selector)
-      element.waitForDisplayed()
-      element.scrollIntoView({ block: "center" })
-      element.click()
+      const selector = action.selector || action.$;
+      const element = $(selector);
+      element.waitForDisplayed();
+      element.scrollIntoView({ block: "center" });
+      element.click();
     }
 
     if (action.switchToFrame !== undefined) {
       // Value `null` is used to switch back to `main` frame.
       if (action.switchToFrame === null) {
-        browser.switchToFrame(action.switchToFrame)
+        browser.switchToFrame(action.switchToFrame);
       } else {
         // Using `element` to find an iframe and providing it to `frame` method.
-        $(action.switchToFrame).waitForExist()
-        browser.switchToFrame($(action.switchToFrame))
+        $(action.switchToFrame).waitForExist();
+        browser.switchToFrame($(action.switchToFrame));
       }
     }
 
@@ -47,19 +47,19 @@ const processAction = action => {
         action.offsetx,
         action.offsety,
         isXPath(action.dragAndDrop)
-      )
+      );
     }
 
     if (action.moveto) {
-      const element = $(action.moveto.$)
-      element.waitForDisplayed()
-      element.moveTo(action.moveto.xoffset, action.moveto.yoffset)
+      const element = $(action.moveto.$);
+      element.waitForDisplayed();
+      element.moveTo(action.moveto.xoffset, action.moveto.yoffset);
     }
 
     if (action.wait) {
-      $(action.wait).waitForDisplayed()
+      $(action.wait).waitForDisplayed();
     }
   }
-}
+};
 
-module.exports = processAction
+module.exports = processAction;
