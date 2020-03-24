@@ -1,4 +1,4 @@
-const program = require("commander")
+const program = require("commander");
 
 program
   .version(require("./package.json").version)
@@ -13,15 +13,15 @@ program
     "Base url of website, e.g. http://localhost:8080"
   )
   .option("--num-retries [num]", "Number of retries.", function(param) {
-    return parseInt(param, 10)
+    return parseInt(param, 10);
   })
   .option("-p, --selenium-port [port]", "Selenium server port", function(
     param
   ) {
-    return parseInt(param, 10)
+    return parseInt(param, 10);
   })
   .option("--login-user [user]", "User name for login form")
   .option("--login-pass [pass]", "Password for login form")
-  .parse(process.argv)
+  .parse(process.argv);
 
-module.exports = program
+module.exports = program;

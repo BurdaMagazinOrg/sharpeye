@@ -1,17 +1,17 @@
 /* eslint-disable global-require */
 /* eslint-disable import/no-dynamic-require */
-const path = require("path")
-const fs = require("fs")
-const program = require("./cli")
-const { options } = require("./sharpeye.conf")
+const path = require("path");
+const fs = require("fs");
+const program = require("./cli");
+const { options } = require("./sharpeye.conf");
 
 if (program.tasks) {
-  module.exports = require(fs.realpathSync(program.tasks))
+  module.exports = require(fs.realpathSync(program.tasks));
 } else if (
   process.cwd() !== __dirname &&
   fs.existsSync(path.join(process.cwd(), "sharpeye.tasks.js"))
 ) {
-  module.exports = require(path.join(process.cwd(), "sharpeye.tasks.js"))
+  module.exports = require(path.join(process.cwd(), "sharpeye.tasks.js"));
 } else {
   module.exports = [
     {
@@ -186,5 +186,5 @@ if (program.tasks) {
         { $: ".field--name-field-image", replace: "<br>Placeholder<br>" }
       ]
     }
-  ]
+  ];
 }

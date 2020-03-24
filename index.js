@@ -1,23 +1,23 @@
 #!/usr/bin/env node
 
-const path = require("path")
-const Launcher = require("@wdio/cli").default
+const path = require("path");
+const Launcher = require("@wdio/cli").default;
 
 // This will give the user information about available options.
 // eslint-disable-next-line no-unused-expressions
-require("./cli").default
+require("./cli").default;
 
 const opts = {
   configFile: path.resolve(__dirname, "sharpeye.conf.js")
-}
+};
 
-const wdio = new Launcher(opts.configFile, opts)
+const wdio = new Launcher(opts.configFile, opts);
 wdio.run().then(
   function(code) {
-    process.exit(code)
+    process.exit(code);
   },
   function(error) {
-    console.error("Launcher failed to start the test", error.stacktrace)
-    process.exit(1)
+    console.error("Launcher failed to start the test", error.stacktrace);
+    process.exit(1);
   }
-)
+);

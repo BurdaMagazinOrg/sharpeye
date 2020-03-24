@@ -1,54 +1,54 @@
 /* eslint-disable global-require */
 /* eslint-disable import/no-dynamic-require */
-const path = require("path")
-const fs = require("fs")
-const program = require("./cli")
-const customReporter = require("./src/customReporter")
+const path = require("path");
+const fs = require("fs");
+const program = require("./cli");
+const customReporter = require("./src/customReporter");
 
 let overwrites = {
   options: {},
   config: {}
-}
+};
 
 if (program.config) {
-  overwrites = require(fs.realpathSync(program.config))
+  overwrites = require(fs.realpathSync(program.config));
 } else if (
   process.cwd() !== __dirname &&
   fs.existsSync(path.join(process.cwd(), "sharpeye.conf.js"))
 ) {
-  overwrites = require(path.join(process.cwd(), "sharpeye.conf.js"))
+  overwrites = require(path.join(process.cwd(), "sharpeye.conf.js"));
 }
 
 // Process --single-browser option, that will set execution to use only specified browser.
 if (program.singleBrowser) {
   overwrites.config.capabilities = [
     overwrites.capabilities[program.singleBrowser]
-  ]
+  ];
 }
 
 // Process --selenium-port option, that will connect to specified selenium server.
 if (program.seleniumPort) {
-  overwrites.config.port = program.seleniumPort
+  overwrites.config.port = program.seleniumPort;
 }
 
 // Process --base-url option, that will connect to specified url.
 if (program.baseUrl) {
-  overwrites.options.baseUrl = program.baseUrl
+  overwrites.options.baseUrl = program.baseUrl;
 }
 
 // Process --num-retries option.
 if (program.numRetries) {
-  overwrites.options.numRetries = program.numRetries
+  overwrites.options.numRetries = program.numRetries;
 }
 
 // Process --login-user option, that will provide login user
 if (program.loginUser) {
-  overwrites.options.user = program.loginUser
+  overwrites.options.user = program.loginUser;
 }
 
 // Process --login-pass option, that will provide login password
 if (program.loginPass) {
-  overwrites.options.pass = program.loginPass
+  overwrites.options.pass = program.loginPass;
 }
 
 // Options for sharpeye
@@ -62,9 +62,9 @@ exports.options = {
   misMatchTolerance: 0,
   rawMisMatchPercentage: true,
   numRetries: 5
-}
+};
 
-Object.assign(exports.options, overwrites.options)
+Object.assign(exports.options, overwrites.options);
 
 exports.config = {
   //
@@ -329,6 +329,6 @@ exports.config = {
    */
   // onReload: function(oldSessionId, newSessionId) {
   // }
-}
+};
 
-Object.assign(exports.config, overwrites.config)
+Object.assign(exports.config, overwrites.config);

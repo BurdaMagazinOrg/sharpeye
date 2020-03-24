@@ -15,8 +15,8 @@ const alignHeight = (width, height) => {
         document.documentElement.clientHeight,
         window.innerHeight || 0
       )
-    }
-  })
+    };
+  });
 
   const desiredViewport = {
     width: width || 1280,
@@ -24,17 +24,17 @@ const alignHeight = (width, height) => {
       height ||
       Math.max(
         browser.execute(function() {
-          return document.documentElement.scrollHeight
+          return document.documentElement.scrollHeight;
         }),
         800
       )
-  }
-  const windowSize = browser.getWindowSize()
+  };
+  const windowSize = browser.getWindowSize();
 
   browser.setWindowSize(
     windowSize.width + (desiredViewport.width - currentViewport.width),
     windowSize.height + (desiredViewport.height - currentViewport.height)
-  )
-}
+  );
+};
 
-module.exports = alignHeight
+module.exports = alignHeight;
