@@ -37,7 +37,7 @@ if (program.baseUrl) {
 }
 
 // Process --num-retries option.
-if (program.numRetries) {
+if (Number.isInteger(program.numRetries)) {
   overwrites.options.numRetries = program.numRetries;
 }
 
@@ -61,7 +61,7 @@ exports.options = {
   // Specify the mismatch tolerance of the comparison.
   misMatchTolerance: 0,
   rawMisMatchPercentage: true,
-  numRetries: 5
+  numRetries: 0
 };
 
 Object.assign(exports.options, overwrites.options);
