@@ -37,7 +37,7 @@ if (program.baseUrl) {
 }
 
 // Process --num-retries option.
-if (program.numRetries) {
+if (Number.isInteger(program.numRetries)) {
   overwrites.options.numRetries = program.numRetries;
 }
 
