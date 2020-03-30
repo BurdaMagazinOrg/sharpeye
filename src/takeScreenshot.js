@@ -69,7 +69,7 @@ const takeScreenshot = task => {
       alignHeight();
       // Let things settle after resize.
       browser.pause(task.pause || 0);
-      assertDiff(browser.checkFullPageScreen(task.tag, screenshotOptions));
+      assertDiff(browser.checkScreen(task.tag, screenshotOptions));
 
       // Curren screen.
     } else {
