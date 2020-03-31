@@ -65,10 +65,10 @@ const takeScreenshot = task => {
       // Full page with resize.
     } else if (task.fullPage) {
       // Let things settle a bit before calculating desired height.
-      browser.pause(task.pause || 0);
+      browser.pause(1500);
       alignHeight();
       // Let things settle after resize.
-      browser.pause(task.pause || 0);
+      browser.pause(1500);
       assertDiff(browser.checkScreen(task.tag, screenshotOptions));
 
       // Curren screen.
