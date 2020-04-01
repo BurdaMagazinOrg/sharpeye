@@ -61,6 +61,7 @@ exports.options = {
   // Specify the mismatch tolerance of the comparison.
   misMatchTolerance: 0,
   rawMisMatchPercentage: true,
+  pauseBeforeScreenshot: 0,
   numRetries: 0
 };
 
