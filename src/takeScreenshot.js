@@ -52,7 +52,7 @@ const takeScreenshot = task => {
     if (task.viewports) {
       task.viewports.forEach(viewport => {
         alignHeight(viewport.width, viewport.height);
-        browser.pause(task.pause || 0);
+        browser.pause(task.pause || options.pauseBeforeScreenshot);
         assertDiff(browser.checkFullPageScreen(task.tag, screenshotOptions));
       });
 
@@ -65,15 +65,15 @@ const takeScreenshot = task => {
       // Full page with resize.
     } else if (task.fullPage) {
       // Let things settle a bit before calculating desired height.
-      browser.pause(1500);
+      browser.pause(task.pause || options.pauseBeforeScreenshot);
       alignHeight();
       // Let things settle after resize.
-      browser.pause(1500);
+      browser.pause(task.pause || options.pauseBeforeScreenshot);
       assertDiff(browser.checkScreen(task.tag, screenshotOptions));
 
       // Curren screen.
     } else {
-      browser.pause(task.pause || 0);
+      browser.pause(task.pause || options.pauseBeforeScreenshot);
       assertDiff(browser.checkScreen(task.tag, screenshotOptions));
     }
 
