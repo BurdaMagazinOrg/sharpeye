@@ -19,5 +19,5 @@ jobs:
           chromedriver --url-base=/wd/hub &
           sudo Xvfb -ac :99 -screen 0 1280x1024x24 > /dev/null 2>&1 & # optional
       - run: npm ci
-      - run: npm test
       - uses: mxschmitt/action-tmate@v3
+      - run: npm test
