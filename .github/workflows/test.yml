@@ -21,10 +21,11 @@ jobs:
       - run: npm ci
       - uses: mxschmitt/action-tmate@v3
       - run: npm test
+      - run: env
       - name: Upload images
         if: failure()
         uses: actions/upload-artifact@v1
         with:
           name: images
-          path: /tmp/sharpeye
+          path: /home/runner/work/sharpeye/sharpeye/test/screenshots
 
